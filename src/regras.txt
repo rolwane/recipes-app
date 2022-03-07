@@ -1,2 +1,3 @@
 // Nomes de componentes, funções, constantes, variáveis serão EM INGLÊS.
 // Nomes de branchs e commits serão EM PORTUGUÊS.
+// Todo componente será .jsx
