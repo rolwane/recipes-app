@@ -1,7 +1,12 @@
 import React from 'react';
+import Header from '../../components/Header/Header';
 
 function DoneRecipes() {
-  return <span>DoneRecipes Page</span>;
+  return (
+    <section>
+      <Header title="Done Recipes" />
+    </section>
+  );
 }
 
 export default DoneRecipes;

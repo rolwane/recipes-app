@@ -1,7 +1,12 @@
 import React from 'react';
+import Header from '../../components/Header/Header';
 
 function Profile() {
-  return <span>Profile Page</span>;
+  return (
+    <section>
+      <Header title="Profile" />
+    </section>
+  );
 }
 
 export default Profile;
