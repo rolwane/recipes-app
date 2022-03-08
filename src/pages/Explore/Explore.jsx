@@ -1,7 +1,13 @@
 import React from 'react';
+import Header from '../../components/Header/Header';
 
 function Explore() {
-  return <span>Explore Page</span>;
+  return (
+    <section>
+      <Header title="Explore" />
+    </section>
+
+  );
 }
 
 export default Explore;
