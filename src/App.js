@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import RecipeProvider from './context/RecipeProvider';
-import Login from './pages/login/Login';
+import Login from './pages/Login/Login';
 
 function App() {
   return (
