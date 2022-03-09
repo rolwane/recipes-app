@@ -11,8 +11,11 @@ import RecipeCard from '../../components/RepiceCard/RecipeCard';
 import Button from '../../components/Button/Button';
 
 function Foods(props) {
-  const { setRouteProps, filteredFoods, setFilteredFoods } = useContext(RecipeContext);
+  const {
+    setRouteProps, filteredFoods, setFilteredFoods, foodsRecipe,
+  } = useContext(RecipeContext);
   const [categorysFoods, setCategoryFoods] = useState([]);
+  const [toogleFilter, setToogleFilter] = useState('');
 
   useEffect(() => {
     setRouteProps(props);
@@ -23,6 +26,11 @@ function Foods(props) {
   const handleButton = async (strCategory) => {
     const response = await getFoodsByCategory(strCategory);
     setFilteredFoods(response.meals.slice(0, MAX_FOODS_AND_DRINKS));
+    if (toogleFilter === strCategory) {
+      setFilteredFoods(foodsRecipe);
+      setToogleFilter('');
+    }
+    setToogleFilter(strCategory);
   };
 
   return (

@@ -11,8 +11,11 @@ import RecipeCard from '../../components/RepiceCard/RecipeCard';
 import Button from '../../components/Button/Button';
 
 function Drinks(props) {
-  const { setRouteProps, filteredDrinks, setFilteredDrinks } = useContext(RecipeContext);
+  const {
+    setRouteProps, filteredDrinks, setFilteredDrinks, drinksRecipe,
+  } = useContext(RecipeContext);
   const [categorysDrinks, setCategoryDrinks] = useState([]);
+  const [toogleFilter, setToogleFilter] = useState('');
 
   useEffect(() => {
     setRouteProps(props);
@@ -23,6 +26,12 @@ function Drinks(props) {
   const handleButton = async (strCategory) => {
     const response = await getDrinksByCategory(strCategory);
     setFilteredDrinks(response.drinks.slice(0, MAX_FOODS_AND_DRINKS));
+    if (toogleFilter === strCategory) {
+      setFilteredDrinks(drinksRecipe);
+      setToogleFilter('');
+      return;
+    }
+    setToogleFilter(strCategory);
   };
 
   return (
