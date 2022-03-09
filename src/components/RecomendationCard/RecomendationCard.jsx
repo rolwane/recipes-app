@@ -7,7 +7,7 @@ function RecomendationCard({ image, name, index }) {
   return (
     <section className="recipe-card" data-testid={ `${index}-recomendation-card` }>
       <img src={ image } alt="recipe" data-testid={ `${index}-card-img` } />
-      <h3 data-testid={ `${index}-card-name` }>{name}</h3>
+      <h3 data-testid={ `${index}-recomendation-title` }>{name}</h3>
     </section>
   );
 }

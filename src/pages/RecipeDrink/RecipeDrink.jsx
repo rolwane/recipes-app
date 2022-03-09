@@ -32,8 +32,8 @@ function RecipeDrink(props) {
     const recipe = {
       id,
       type: 'drink',
-      nationality: strArea,
-      category: strCategory,
+      nationality: strArea || '',
+      category: strCategory || '',
       alcoholicOrNot: strAlcoholic || '',
       name: strDrink,
       image: strDrinkThumb,
@@ -98,17 +98,16 @@ function RecipeDrink(props) {
           <div>
             <h3 data-testid="recipe-title">{ strDrink }</h3>
             <Button
-              title={ <img src={ shareIcon } alt="share icon" /> }
-              testId="share-btn"
+              title={ <img data-testid="share-btn" src={ shareIcon } alt="share icon" /> }
             />
             <Button
               title={
                 <img
                   src={ verifiedIconFavorite(isfavorited) }
+                  data-testid="favorite-btn"
                   alt="favorite icon"
                 />
               }
-              testId="favorite-btn"
               onClick={ handleFavoriteBtn }
             />
           </div>

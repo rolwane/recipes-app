@@ -2,19 +2,20 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 export const favoriteRecipes = (recipe) => {
-  const favoriteRecipe = [];
-  favoriteRecipe.push(recipe);
-  localStorage.setItem('favoritesRecipes', JSON.stringify(favoriteRecipe));
+  const getFavoritesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  const favoriteRecipe = getFavoritesRecipes
+    ? [...getFavoritesRecipes, recipe] : [recipe];
+  localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipe));
 };
 
 export const desfavoriteRecipes = (recipe) => {
   const favoritesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  const desfavorite = favoritesRecipes.filter((rec) => rec !== recipe);
-  localStorage.setItem('favoritesRecipes', JSON.stringify(desfavorite));
+  const desfavorite = favoritesRecipes.filter((rec) => rec.name !== recipe.name);
+  localStorage.setItem('favoriteRecipes', JSON.stringify(desfavorite));
 };
 
 export const isFavorite = (recipeName) => {
-  const favoritedsRecipes = JSON.parse(localStorage.getItem('favoritesRecipes'));
+  const favoritedsRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const verifieFavoriteRecipe = favoritedsRecipes !== null ? favoritedsRecipes
     .some((recipe) => recipe.name === recipeName) : false;
   return verifieFavoriteRecipe;

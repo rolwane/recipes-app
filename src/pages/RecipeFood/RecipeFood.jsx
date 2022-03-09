@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
 import { getFoodsById } from '../../services/foodsAPI';
 import {
-  favoriteRecipes, desfavoriteRecipes, isFavorite,
-  isInProgress, isDone, verifiedIconFavorite,
+  favoriteRecipes, desfavoriteRecipes, isFavorite, verifiedIconFavorite,
+  isInProgress, isDone,
 } from '../../helpers/functions';
 import './RecipeFood.css';
 
@@ -13,18 +13,22 @@ import './RecipeFood.css';
 import Button from '../../components/Button/Button';
 import RecomendationCard from '../../components/RecomendationCard/RecomendationCard';
 import shareIcon from '../../images/shareIcon.svg';
+// import blackHeartIcon from '../../images/blackHeartIcon.svg';
+// import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 function RecipeFood(props) {
   const { match: { params: { id } } } = props;
   const { recomendsDrinks } = useContext(RecipeContext);
 
   const [recipeFood, setRecipeFood] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [measurents, setMeasurents] = useState([]);
-
   const {
     strMeal, strCategory, strInstructions, strMealThumb, strYoutube, strArea,
   } = recipeFood;
+
+  const [ingredients, setIngredients] = useState([]);
+  const [measurents, setMeasurents] = useState([]);
+  const [clickFavorite, setClickFavorite] = useState(1);
+  const [isfavorited, setIsFavorited] = useState(isFavorite(strMeal));
 
   const idYoutube = strYoutube && strYoutube.split('=')[1];
 
@@ -32,19 +36,20 @@ function RecipeFood(props) {
     const recipe = {
       id,
       type: 'food',
-      nationality: strArea,
-      category: strCategory,
+      nationality: strArea || '',
+      category: strCategory || '',
       alcoholicOrNot: '',
-      name: strMeal,
-      image: strMealThumb,
+      name: strMeal || '',
+      image: strMealThumb || '',
     };
 
-    if (verifieFavoriteRecipe) {
+    if (isfavorited) {
       desfavoriteRecipes(recipe);
+      setClickFavorite((prevState) => prevState + 1);
       return;
     }
-
     favoriteRecipes(recipe);
+    setClickFavorite((prevState) => prevState + 1);
   };
 
   useEffect(() => {
@@ -80,7 +85,8 @@ function RecipeFood(props) {
   useEffect(() => {
     setIngredients(getIngredients());
     setMeasurents(getMeasure());
-  }, [recipeFood]);
+    setIsFavorited(isFavorite(strMeal));
+  }, [recipeFood, clickFavorite]);
 
   return (
     <section className="content">
@@ -101,11 +107,11 @@ function RecipeFood(props) {
             <Button
               title={
                 <img
-                  src={ verifiedIconFavorite(isFavorite(strMeal)) }
+                  data-testid="favorite-btn"
+                  src={ verifiedIconFavorite(isfavorited) }
                   alt="favorite icon"
                 />
               }
-              testId="favorite-btn"
               onClick={ handleFavoriteBtn }
             />
           </div>
@@ -139,7 +145,7 @@ function RecipeFood(props) {
             <h4>Video</h4>
             <iframe
               data-testid="video"
-              width="560"
+              className="videoRecipe"
               height="315"
               src={ `https://www.youtube.com/embed/${idYoutube || ''}` }
               title="YouTube video player"
@@ -147,32 +153,35 @@ function RecipeFood(props) {
               allowFullScreen
             />
           </div>
-          <div>
+          <div className="div-recomends">
             <h4>Recommend</h4>
-            { recomendsDrinks && recomendsDrinks.map((recipe, index) => (
-              <Link
-                key={ index }
-                to={ `/drinks/${recipe.idDrink}` }
-              >
-                <RecomendationCard
-                  index={ index }
-                  name={ recipe.strDrink }
-                  image={ recipe.strDrinkThumb }
-                />
-              </Link>
-            ))}
+            <section className="section-cardsRecomend">
+              { recomendsDrinks && recomendsDrinks.map((recipe, index) => (
+                <Link
+                  key={ index }
+                  to={ `/drinks/${recipe.idDrink}` }
+                >
+                  <RecomendationCard
+                    index={ index }
+                    name={ recipe.strDrink }
+                    image={ recipe.strDrinkThumb }
+                  />
+                </Link>
+              ))}
+            </section>
           </div>
-          { !isDone(strMeal) && (
-            <button
-              type="button"
-              className="btn-start"
-              data-testid="start-recipe-btn"
-            >
-              { isInProgress(strMeal) ? 'Continue Recipe' : 'Start Recipe' }
-            </button>
-          )}
         </>
       )}
+      { !isDone(strMeal) && (
+        <button
+          type="button"
+          className="btn-start"
+          data-testid="start-recipe-btn"
+        >
+          { isInProgress(strMeal) ? 'Continue Recipe' : 'Start Recipe' }
+        </button>
+      )}
+
     </section>
   );
 }
