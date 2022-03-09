@@ -1,50 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import propTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-// import RecipeContext from '../../context/RecipeContext';
+import { Link } from 'react-router-dom';
+import RecipeContext from '../../context/RecipeContext';
 import { getFoodsById } from '../../services/foodsAPI';
-import { favoriteRecipes, desfavoriteRecipes } from '../../helpers/functions';
-
-// import { MAX_LENGTH_RECOMMENDS } from '../../helpers/constants';
+import {
+  favoriteRecipes, desfavoriteRecipes, isFavorite,
+  isInProgress, isDone, verifiedIconFavorite,
+} from '../../helpers/functions';
+import './RecipeFood.css';
 
 // import components
 import Button from '../../components/Button/Button';
-// import RecipeCard from '../../components/RepiceCard/RecipeCard';
+import RecomendationCard from '../../components/RecomendationCard/RecomendationCard';
 import shareIcon from '../../images/shareIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 
 function RecipeFood(props) {
   const { match: { params: { id } } } = props;
-  // const { drinksRecipe } = useContext(RecipeContext);
+  const { recomendsDrinks } = useContext(RecipeContext);
 
   const [recipeFood, setRecipeFood] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measurents, setMeasurents] = useState([]);
-  // const [recommends, setRecommends] = useState([]);
 
   const {
     strMeal, strCategory, strInstructions, strMealThumb, strYoutube, strArea,
   } = recipeFood;
 
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  const verifieDoneRecipe = doneRecipes && doneRecipes
-    .some((recipe) => recipe.name === strMeal);
-
-  const favoritedsRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  const verifieFavoriteRecipe = favoritedsRecipes && doneRecipes
-    .some((recipe) => recipe.name === strMeal);
-
-  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  const verifieInProgressRecipe = inProgressRecipes
-  && inProgressRecipes.some((recipe) => recipe.name === strMeal);
-
-  const isFavorite = () => {
-    if (verifieFavoriteRecipe) {
-      return blackHeartIcon;
-    }
-    return whiteHeartIcon;
-  };
+  const idYoutube = strYoutube && strYoutube.split('=')[1];
 
   const handleFavoriteBtn = () => {
     const recipe = {
@@ -67,8 +49,7 @@ function RecipeFood(props) {
 
   useEffect(() => {
     getFoodsById(id).then((response) => setRecipeFood(response.meals[0]));
-    // setRecommends(drinksRecipe.slice(0, MAX_LENGTH_RECOMMENDS));
-  }, [id]);
+  }, []);
 
   const getIngredients = () => {
     const recipeFoodArray = Object.entries(recipeFood);
@@ -97,25 +78,33 @@ function RecipeFood(props) {
   };
 
   useEffect(() => {
-    if (recipeFood) {
-      setIngredients(getIngredients());
-      setMeasurents(getMeasure());
-    }
-  }, []);
+    setIngredients(getIngredients());
+    setMeasurents(getMeasure());
+  }, [recipeFood]);
 
   return (
-    <section>
+    <section className="content">
       { recipeFood && (
         <>
-          <img src={ strMealThumb } alt={ strMeal } data-testid="recipe-photo" />
+          <img
+            src={ strMealThumb }
+            alt={ strMeal }
+            data-testid="recipe-photo"
+            className="recipe-photo"
+          />
           <div>
             <h3 data-testid="recipe-title">{ strMeal }</h3>
             <Button
-              value={ <img src={ shareIcon } alt="share icon" /> }
+              title={ <img src={ shareIcon } alt="share icon" /> }
               testId="share-btn"
             />
             <Button
-              value={ <img src={ isFavorite() } alt="favorite icon" /> }
+              title={
+                <img
+                  src={ verifiedIconFavorite(isFavorite(strMeal)) }
+                  alt="favorite icon"
+                />
+              }
               testId="favorite-btn"
               onClick={ handleFavoriteBtn }
             />
@@ -148,31 +137,39 @@ function RecipeFood(props) {
           </div>
           <div>
             <h4>Video</h4>
-            <video
+            <iframe
               data-testid="video"
-            >
-              <source src={ strYoutube } type="video/mp4" />
-              <source src={ strYoutube } type="video/ogg" />
-              <track kind="captions" />
-            </video>
+              width="560"
+              height="315"
+              src={ `https://www.youtube.com/embed/${idYoutube || ''}` }
+              title="YouTube video player"
+              frameBorder="0"
+              allowFullScreen
+            />
           </div>
           <div>
             <h4>Recommend</h4>
-            {/* { recommends.map((recipe, index) => (
-          <Link to={ `/drinks/${recipe.idDrink}` } key={ index }>
-            <RecipeCard
-              index={ index }
-              name={ recipe.strDrink }
-              image={ recipe.strDrinkThumb }
-            />
-          </Link>
-        ))} */}
+            { recomendsDrinks && recomendsDrinks.map((recipe, index) => (
+              <Link
+                key={ index }
+                to={ `/drinks/${recipe.idDrink}` }
+              >
+                <RecomendationCard
+                  index={ index }
+                  name={ recipe.strDrink }
+                  image={ recipe.strDrinkThumb }
+                />
+              </Link>
+            ))}
           </div>
-          { verifieDoneRecipe && (
-            <Button
-              value={ verifieInProgressRecipe ? 'Continue Recipes' : 'Start Recipe' }
-              testId="share-btnstart-recipe-btn"
-            />
+          { !isDone(strMeal) && (
+            <button
+              type="button"
+              className="btn-start"
+              data-testid="start-recipe-btn"
+            >
+              { isInProgress(strMeal) ? 'Continue Recipe' : 'Start Recipe' }
+            </button>
           )}
         </>
       )}

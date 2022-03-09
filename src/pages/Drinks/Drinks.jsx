@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
 import { getCategorysDrinks, getDrinksByCategory } from '../../services/drinksAPI';
-import { MAX_CATEGORYS, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
+import { MAX_CATEGORIES, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
 // imported components
 import Header from '../../components/Header/Header';
@@ -22,7 +22,7 @@ function Drinks(props) {
     getCategorysDrinks()
       .then((response) => setCategoryDrinks([
         { strCategory: 'All' },
-        ...response.drinks.slice(0, MAX_CATEGORYS),
+        ...response.drinks.slice(0, MAX_CATEGORIES),
       ]));
   }, []);
 
