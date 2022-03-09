@@ -6,4 +6,9 @@ export const getDrinksBySearchBar = async (searchValue, filter) => {
   return data;
 };
 
-export const TEMP = 'TEMP';
+export const getTwelvesDrinks = async () => {
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
