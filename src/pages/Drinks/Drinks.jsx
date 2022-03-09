@@ -2,7 +2,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
-import { getCategorysDrinks, getDrinksByCategory } from '../../services/drinksAPI';
+import { getCategoriesDrinks, getDrinksByCategory } from '../../services/drinksAPI';
 import { MAX_CATEGORIES, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
 // imported components
@@ -13,36 +13,41 @@ import Footer from '../../components/Footer/Footer';
 
 function Drinks(props) {
   const {
-    setRouteProps, drinkList, setDrinkList, drinksRecipe,
+    setRouteProps,
+    drinkList,
+    setDrinkList,
+    drinksRecipe,
   } = useContext(RecipeContext);
-  const [categorysDrinks, setCategoryDrinks] = useState([]);
-  const [toogleFilter, setToogleFilter] = useState('');
+
+  const [categoriesDrinks, setCategoryDrinks] = useState([]);
+  const [toggleFilter, setToggleFilter] = useState('');
 
   useEffect(() => {
     setRouteProps(props);
-    getCategorysDrinks()
-      .then((response) => setCategoryDrinks([
-        { strCategory: 'All' },
-        ...response.drinks.slice(0, MAX_CATEGORIES),
-      ]));
+
+    getCategoriesDrinks().then(({ drinks }) => {
+      setCategoryDrinks([{ strCategory: 'All' }, ...drinks.slice(0, MAX_CATEGORIES)]);
+    });
   }, []);
 
   const handleButton = async (strCategory) => {
-    if (toogleFilter === strCategory || strCategory === 'All') {
+    if (toggleFilter === strCategory || strCategory === 'All') {
       setDrinkList(drinksRecipe);
-      setToogleFilter('');
+      setToggleFilter('');
       return;
     }
+
     const response = await getDrinksByCategory(strCategory);
     setDrinkList(response.drinks.slice(0, MAX_FOODS_AND_DRINKS));
-    setToogleFilter(strCategory);
+    setToggleFilter(strCategory);
   };
 
   return (
     <section>
       <Header title="Drinks" renderSearch />
+
       <article>
-        { categorysDrinks && categorysDrinks.map(({ strCategory }) => (
+        { categoriesDrinks.map(({ strCategory }) => (
           <Button
             key={ strCategory }
             title={ strCategory }
@@ -51,6 +56,7 @@ function Drinks(props) {
           />
         ))}
       </article>
+
       <section>
         { drinkList.map((drink, index) => (
           <Link key={ index } to={ `/drinks/${drink.idDrink}` }>

@@ -1,0 +1,22 @@
+.container-login {
+  align-items: center;
+  background-color: var(--yellow);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.form-login {
+  margin-top: -100px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto 50px;
+  max-width: 160px;
+  width: 100%;
+}
