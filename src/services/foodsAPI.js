@@ -6,4 +6,9 @@ export const getFoodsBySearchBar = async (searchValue, filter) => {
   return data;
 };
 
-export const TEMP = 'TEMP';
+export const getFoodsById = async (id) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
