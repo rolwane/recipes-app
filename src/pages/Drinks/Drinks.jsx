@@ -9,6 +9,7 @@ import { MAX_CATEGORIES, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 import Header from '../../components/Header/Header';
 import RecipeCard from '../../components/RepiceCard/RecipeCard';
 import Button from '../../components/Button/Button';
+import Footer from '../../components/Footer/Footer';
 
 function Drinks(props) {
   const {
@@ -67,7 +68,7 @@ function Drinks(props) {
           </Link>
         ))}
       </section>
-
+      <Footer />
     </section>
   );
 }
