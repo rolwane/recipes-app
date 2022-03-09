@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+import './Input.css';
+
 function Input(props) {
   const {
     label = null,
@@ -26,6 +28,7 @@ function Input(props) {
         data-testid={ testId }
         onChange={ onChange }
         disabled={ disabled }
+        className="input"
       />
     </label>
   );

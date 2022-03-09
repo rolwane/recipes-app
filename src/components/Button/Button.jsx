@@ -2,7 +2,12 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 function Button(props) {
-  const { title, testId = null, onClick = null } = props;
+  const {
+    children = null,
+    title = '',
+    testId = null,
+    onClick = null,
+  } = props;
 
   return (
     <button
@@ -10,17 +15,16 @@ function Button(props) {
       data-testid={ testId }
       onClick={ onClick }
     >
-      { title }
+      { title || children }
     </button>
   );
 }
 
 Button.propTypes = {
-  props: propTypes.shape({
-    title: propTypes.string,
-    testId: propTypes.string,
-    onClick: propTypes.func,
-  }),
+  children: propTypes.any,
+  title: propTypes.string,
+  testId: propTypes.string,
+  onClick: propTypes.func,
 }.isRequired;
 
 export default Button;

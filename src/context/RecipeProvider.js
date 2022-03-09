@@ -5,7 +5,7 @@ import { getTwelvesFoods } from '../services/foodsAPI';
 import { getTwelvesDrinks } from '../services/drinksAPI';
 import { MAX_FOODS_AND_DRINKS } from '../helpers/constants';
 
-function ContextProvider({ children }) {
+function RecipeProvider({ children }) {
   const [routeProps, setRouteProps] = useState({});
   const [foodsRecipe, setFoodsRecipe] = useState([]);
   const [drinksRecipe, setDrinksRecipe] = useState([]);
@@ -19,6 +19,7 @@ function ContextProvider({ children }) {
         setFoodList(foods);
         setFoodsRecipe(foods);
       });
+
     getTwelvesDrinks()
       .then((response) => {
         const drinks = response.drinks.slice(0, MAX_FOODS_AND_DRINKS);
@@ -29,12 +30,12 @@ function ContextProvider({ children }) {
 
   const values = {
     routeProps,
-    setRouteProps,
     foodsRecipe,
     drinksRecipe,
     foodList,
-    setFoodList,
     drinkList,
+    setRouteProps,
+    setFoodList,
     setDrinkList,
   };
 
@@ -45,8 +46,8 @@ function ContextProvider({ children }) {
   );
 }
 
-ContextProvider.propTypes = {
+RecipeProvider.propTypes = {
   children: propTypes.any,
 }.isRequired;
 
-export default ContextProvider;
+export default RecipeProvider;
