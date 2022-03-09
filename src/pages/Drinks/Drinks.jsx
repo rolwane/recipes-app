@@ -2,8 +2,8 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
-import { getCategorysDrinks } from '../../services/drinksAPI';
-import { MAX_CATEGORYS } from '../../helpers/constants';
+import { getCategorysDrinks, getDrinksByCategory } from '../../services/drinksAPI';
+import { MAX_CATEGORYS, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
 // imported components
 import Header from '../../components/Header/Header';
@@ -11,7 +11,7 @@ import RecipeCard from '../../components/RepiceCard/RecipeCard';
 import Button from '../../components/Button/Button';
 
 function Drinks(props) {
-  const { setRouteProps, drinksRecipe } = useContext(RecipeContext);
+  const { setRouteProps, filteredDrinks, setFilteredDrinks } = useContext(RecipeContext);
   const [categorysDrinks, setCategoryDrinks] = useState([]);
 
   useEffect(() => {
@@ -19,6 +19,11 @@ function Drinks(props) {
     getCategorysDrinks()
       .then((response) => setCategoryDrinks(response.drinks.slice(0, MAX_CATEGORYS)));
   }, []);
+
+  const handleButton = async (strCategory) => {
+    const response = await getDrinksByCategory(strCategory);
+    setFilteredDrinks(response.drinks.slice(0, MAX_FOODS_AND_DRINKS));
+  };
 
   return (
     <section>
@@ -29,11 +34,12 @@ function Drinks(props) {
             key={ strCategory }
             title={ strCategory }
             testId={ `${strCategory}-category-filter` }
+            onClick={ () => handleButton(strCategory) }
           />
         ))}
       </article>
       <section>
-        { drinksRecipe.map((drink, index) => (
+        { filteredDrinks.map((drink, index) => (
           <Link key={ index } to="/foods">
             <RecipeCard
               image={ drink.strDrinkThumb }
