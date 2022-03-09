@@ -1,18 +1,29 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import RepiceContext from '../../context/RecipeContext';
 import { getFoodsBySearchBar } from '../../services/foodsAPI';
 import { getDrinksBySearchBar } from '../../services/drinksAPI';
+
+import { MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
 // imported components
 import Input from '../Input/Input';
 
 function SearchBar() {
-  const { routeProps } = useContext(RepiceContext);
+  const {
+    routeProps,
+    setFoodList,
+    setDrinkList,
+  } = useContext(RepiceContext);
+
   const [search, setSearch] = useState('');
   const [searchFilter, setsearchFilter] = useState('');
 
-  const handleSubmit = (event) => {
+  const [foods, setfoods] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const errorAlert = 'Sorry, we haven\'t found any recipes for these filters.';
 
     const { match: { path } } = routeProps;
 
@@ -22,12 +33,39 @@ function SearchBar() {
     }
 
     if (path.includes('/drinks')) {
-      getDrinksBySearchBar(search, searchFilter).then((data) => console.log(data));
+      const data = await getDrinksBySearchBar(search, searchFilter);
+      if (data.drinks === null) {
+        global.alert(errorAlert);
+        return;
+      }
+      setDrinkList(data.drinks.slice(0, MAX_FOODS_AND_DRINKS));
+      setDrinks(data.drinks.slice(0, MAX_FOODS_AND_DRINKS));
       return;
     }
 
-    getFoodsBySearchBar(search, searchFilter).then((data) => console.log(data));
+    const dataFood = await getFoodsBySearchBar(search, searchFilter);
+    if (dataFood.meals === null) {
+      global.alert(errorAlert);
+      return;
+    }
+    setFoodList(dataFood.meals.slice(0, MAX_FOODS_AND_DRINKS));
+    setfoods(dataFood.meals.slice(0, MAX_FOODS_AND_DRINKS));
   };
+
+  const redirectToFirstCard = (type, id, state) => {
+    const { history } = routeProps;
+    const idRecipe = state[0][id];
+    history.push(`/${type}/${idRecipe}`);
+  };
+
+  useEffect(() => {
+    if (drinks && drinks.length === 1) {
+      redirectToFirstCard('drinks', 'idDrink', drinks);
+    }
+    if (foods && foods.length === 1) {
+      redirectToFirstCard('foods', 'idMeal', foods);
+    }
+  }, [foods, drinks]);
 
   return (
     <form onSubmit={ handleSubmit }>
