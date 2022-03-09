@@ -18,11 +18,11 @@ function Drinks(props) {
     <section>
       <Header title="Drinks" renderSearch />
       <section>
-        { drinksRecipe.map((food, index) => (
+        { drinksRecipe.map((drink, index) => (
           <Link key={ index } to="/foods">
             <RecipeCard
-              image={ food.strMealThumb }
-              name={ food.strMeal }
+              image={ drink.strDrinkThumb }
+              name={ drink.strDrink }
               index={ index }
             />
           </Link>
