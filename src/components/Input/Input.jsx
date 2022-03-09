@@ -3,19 +3,28 @@ import propTypes from 'prop-types';
 
 function Input(props) {
   const {
-    name, label = null, type, onChange = null, testId = null, value, disabled = false,
+    label = null,
+    id = null,
+    name,
+    type,
+    value,
+    placeholder = null,
+    testId = null,
+    onChange = null,
+    disabled = false,
   } = props;
 
   return (
-    <label htmlFor={ name }>
+    <label htmlFor={ id || name }>
       {label}
       <input
         name={ name }
         type={ type }
-        id={ name }
-        onChange={ onChange }
-        data-testid={ testId }
+        id={ id || name }
         value={ value }
+        placeholder={ placeholder }
+        data-testid={ testId }
+        onChange={ onChange }
         disabled={ disabled }
       />
     </label>
