@@ -20,17 +20,20 @@ function Drinks(props) {
   useEffect(() => {
     setRouteProps(props);
     getCategorysDrinks()
-      .then((response) => setCategoryDrinks(response.drinks.slice(0, MAX_CATEGORYS)));
+      .then((response) => setCategoryDrinks([
+        { strCategory: 'All' },
+        ...response.drinks.slice(0, MAX_CATEGORYS),
+      ]));
   }, []);
 
   const handleButton = async (strCategory) => {
-    const response = await getDrinksByCategory(strCategory);
-    setFilteredDrinks(response.drinks.slice(0, MAX_FOODS_AND_DRINKS));
-    if (toogleFilter === strCategory) {
+    if (toogleFilter === strCategory || strCategory === 'All') {
       setFilteredDrinks(drinksRecipe);
       setToogleFilter('');
       return;
     }
+    const response = await getDrinksByCategory(strCategory);
+    setFilteredDrinks(response.drinks.slice(0, MAX_FOODS_AND_DRINKS));
     setToogleFilter(strCategory);
   };
 
@@ -49,7 +52,7 @@ function Drinks(props) {
       </article>
       <section>
         { filteredDrinks.map((drink, index) => (
-          <Link key={ index } to="/foods">
+          <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
             <RecipeCard
               image={ drink.strDrinkThumb }
               name={ drink.strDrink }

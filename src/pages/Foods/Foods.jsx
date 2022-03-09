@@ -20,16 +20,20 @@ function Foods(props) {
   useEffect(() => {
     setRouteProps(props);
     getCategorysFoods()
-      .then((response) => setCategoryFoods(response.meals.slice(0, MAX_CATEGORYS)));
+      .then((response) => setCategoryFoods([
+        { strCategory: 'All' },
+        ...response.meals.slice(0, MAX_CATEGORYS),
+      ]));
   }, []);
 
   const handleButton = async (strCategory) => {
-    const response = await getFoodsByCategory(strCategory);
-    setFilteredFoods(response.meals.slice(0, MAX_FOODS_AND_DRINKS));
-    if (toogleFilter === strCategory) {
+    if (toogleFilter === strCategory || strCategory === 'All') {
       setFilteredFoods(foodsRecipe);
       setToogleFilter('');
+      return;
     }
+    const response = await getFoodsByCategory(strCategory);
+    setFilteredFoods(response.meals.slice(0, MAX_FOODS_AND_DRINKS));
     setToogleFilter(strCategory);
   };
 
@@ -48,7 +52,7 @@ function Foods(props) {
       </article>
       <section>
         { filteredFoods.map((food, index) => (
-          <Link key={ index } to="/foods">
+          <Link key={ index } to={ `/foods/${food.idMeal}` }>
             <RecipeCard
               image={ food.strMealThumb }
               name={ food.strMeal }
