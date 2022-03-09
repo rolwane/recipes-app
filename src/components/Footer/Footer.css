@@ -2,8 +2,8 @@ footer {
   background-color: '#e5e5e5';
   bottom: 0;
   display: flex;
-  position: fixed;
   flex-direction: row;
-  width: 100%;
+  position: fixed;
   justify-content: space-around;
+  width: 100%;
 }
