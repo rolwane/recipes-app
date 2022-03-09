@@ -9,20 +9,20 @@ function ContextProvider({ children }) {
   const [routeProps, setRouteProps] = useState({});
   const [foodsRecipe, setFoodsRecipe] = useState([]);
   const [drinksRecipe, setDrinksRecipe] = useState([]);
-  const [filteredFoods, setFilteredFoods] = useState([]);
-  const [filteredDrinks, setFilteredDrinks] = useState([]);
+  const [foodList, setFoodList] = useState([]);
+  const [drinkList, setDrinkList] = useState([]);
 
   useEffect(() => {
     getTwelvesFoods()
       .then((response) => {
         const foods = response.meals.slice(0, MAX_FOODS_AND_DRINKS);
-        setFilteredFoods(foods);
+        setFoodList(foods);
         setFoodsRecipe(foods);
       });
     getTwelvesDrinks()
       .then((response) => {
         const drinks = response.drinks.slice(0, MAX_FOODS_AND_DRINKS);
-        setFilteredDrinks(drinks);
+        setDrinkList(drinks);
         setDrinksRecipe(drinks);
       });
   }, []);
@@ -32,10 +32,10 @@ function ContextProvider({ children }) {
     setRouteProps,
     foodsRecipe,
     drinksRecipe,
-    filteredFoods,
-    setFilteredFoods,
-    filteredDrinks,
-    setFilteredDrinks,
+    foodList,
+    setFoodList,
+    drinkList,
+    setDrinkList,
   };
 
   return (

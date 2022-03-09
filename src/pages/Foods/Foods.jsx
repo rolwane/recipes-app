@@ -12,7 +12,7 @@ import Button from '../../components/Button/Button';
 
 function Foods(props) {
   const {
-    setRouteProps, filteredFoods, setFilteredFoods, foodsRecipe,
+    setRouteProps, foodList, setFoodList, foodsRecipe,
   } = useContext(RecipeContext);
   const [categorysFoods, setCategoryFoods] = useState([]);
   const [toogleFilter, setToogleFilter] = useState('');
@@ -28,12 +28,12 @@ function Foods(props) {
 
   const handleButton = async (strCategory) => {
     if (toogleFilter === strCategory || strCategory === 'All') {
-      setFilteredFoods(foodsRecipe);
+      setFoodList(foodsRecipe);
       setToogleFilter('');
       return;
     }
     const response = await getFoodsByCategory(strCategory);
-    setFilteredFoods(response.meals.slice(0, MAX_FOODS_AND_DRINKS));
+    setFoodList(response.meals.slice(0, MAX_FOODS_AND_DRINKS));
     setToogleFilter(strCategory);
   };
 
@@ -51,7 +51,7 @@ function Foods(props) {
         ))}
       </article>
       <section>
-        { filteredFoods.map((food, index) => (
+        { foodList.map((food, index) => (
           <Link key={ index } to={ `/foods/${food.idMeal}` }>
             <RecipeCard
               image={ food.strMealThumb }
