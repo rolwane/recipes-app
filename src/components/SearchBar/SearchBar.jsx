@@ -3,7 +3,7 @@ import RepiceContext from '../../context/RecipeContext';
 import { getFoodsBySearchBar } from '../../services/foodsAPI';
 import { getDrinksBySearchBar } from '../../services/drinksAPI';
 
-import { MAX_LENGTH_FOODS_AND_DRINKS } from '../../helpers/constants';
+import { MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
 // imported components
 import Input from '../Input/Input';
@@ -38,8 +38,8 @@ function SearchBar() {
         global.alert(errorAlert);
         return;
       }
-      setDrinkList(data.drinks.slice(0, MAX_LENGTH_FOODS_AND_DRINKS));
-      setDrinks(data.drinks.slice(0, MAX_LENGTH_FOODS_AND_DRINKS));
+      setDrinkList(data.drinks.slice(0, MAX_FOODS_AND_DRINKS));
+      setDrinks(data.drinks.slice(0, MAX_FOODS_AND_DRINKS));
       return;
     }
 
@@ -48,8 +48,8 @@ function SearchBar() {
       global.alert(errorAlert);
       return;
     }
-    setFoodList(dataFood.meals.slice(0, MAX_LENGTH_FOODS_AND_DRINKS));
-    setfoods(dataFood.meals.slice(0, MAX_LENGTH_FOODS_AND_DRINKS));
+    setFoodList(dataFood.meals.slice(0, MAX_FOODS_AND_DRINKS));
+    setfoods(dataFood.meals.slice(0, MAX_FOODS_AND_DRINKS));
   };
 
   const redirectToFirstCard = (type, id, state) => {

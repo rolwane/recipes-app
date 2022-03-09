@@ -7,4 +7,23 @@ export const getFoodsBySearchBar = async (searchValue, filter) => {
   return data;
 };
 
-export const TEMP = 'TEMP';
+export const getTwelvesFoods = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
+
+export const getCategorysFoods = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
+
+export const getFoodsByCategory = async (category) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
