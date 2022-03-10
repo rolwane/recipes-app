@@ -1,25 +1,30 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
+import { sendProgressRecipe } from '../../helpers/functions';
+import { getFoodsById } from '../../services/foodsAPI';
 import './FoodInProgress.css';
-
-//  Context
-import RecipeContext from '../../context/RecipeContext';
 
 function FoodInProgress(props) {
   const [recipeInProgress, setRecipeInProgress] = useState({});
   const [ingredientList, setIngredientList] = useState([]);
   const [measureList, setMeasureList] = useState([]);
-  const [localStorage, setLocalStorage] = useState([]);
+  const [checkedIngredients, setCheckIngredients] = useState([]);
   const { match: { params } } = props;
-  const { foodList } = useContext(RecipeContext); // um state se for drink ou food.
 
   useEffect(() => {
-    const food = foodList.find((recipe) => (
-      recipe.idMeal
-      || recipe.idDrink
-    ) === params.id) || {};
-    setRecipeInProgress(food);
-  }, [foodList, params]);
+    const savedMealsLS = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (savedMealsLS) {
+      const ingredients = savedMealsLS.meals[params.id];
+      setCheckIngredients(ingredients);
+    }
+
+    getFoodsById(params.id).then((e) => setRecipeInProgress(e.meals[0]));
+  }, [params.id]);
+
+  useEffect(() => {
+    const recipe = { [params.id]: checkedIngredients };
+    sendProgressRecipe('meals', recipe);
+  }, [checkedIngredients, params.id]);
 
   useEffect(() => {
     const list = Object.entries(recipeInProgress)
@@ -37,61 +42,76 @@ function FoodInProgress(props) {
     setMeasureList(measures);
   }, [recipeInProgress]); // retira apenas as chaves strIngredient e strMeasure que possuem valores do Objeto.
 
-  const handleClick = ({ target }) => {
-    console.log(target);
-    // target.nextElementSibling.classList.toggle('line-through');
-    setLocalStorage((prevState) => ([...prevState, target.id]));
-    localStorage.setItem('list');
+  const handleOnChange = ({ target }) => {
+    const ingredients = target.nextElementSibling.innerText;
+    if (checkedIngredients.some((ing) => ing === ingredients)) {
+      setCheckIngredients((prevState) => prevState.filter((ing) => ing !== ingredients));
+      return;
+    }
+    setCheckIngredients((prevState) => [...prevState, ingredients]);
   };
 
   return (
     <section>
-      <img
-        src={ recipeInProgress.strMealThumb }
-        alt={ recipeInProgress.strMeal }
-        width="300px"
-        data-testid="recipe-photo"
-      />
-      <h3 data-testid="recipe-title">{ recipeInProgress.strMeal }</h3>
-      <button type="button" data-testid="share-btn">
-        <img
-          src="https://img.icons8.com/android/24/000000/share.png"
-          alt="será um componente"
-        />
-      </button>
-      <button type="button" data-testid="favorite-btn">
-        <img
-          style={ { width: '24.2px' } }
-          src="https://img.icons8.com/emoji/48/000000/heart-suit.png"
-          alt="será um componente"
-        />
-      </button>
-      <h4 data-testid="recipe-category">
-        { recipeInProgress.strCategory }
-      </h4>
-      <ul>
-        { ingredientList.map((ingredient, i) => (
-          <li key={ i } data-testid={ `${i}-ingredient-step` }>
-            <input
-              type="checkbox"
-              id={ ingredient[1] }
-              name={ ingredient[0] }
-              value={ ingredient[1] }
-              onChange={ handleClick }
+      { recipeInProgress && (
+        <>
+          <img
+            src={ recipeInProgress.strMealThumb }
+            alt={ recipeInProgress.strMeal }
+            width="300px"
+            data-testid="recipe-photo"
+          />
+          <h3 data-testid="recipe-title">{ recipeInProgress.strMeal }</h3>
+          <button type="button" data-testid="share-btn">
+            <img
+              src="https://img.icons8.com/android/24/000000/share.png"
+              alt="será um componente"
             />
-            <label htmlFor={ ingredient[1] }>
-              {ingredient[1]}
-              :
-              {' '}
-              {measureList[i][1]}
-            </label>
+          </button>
+          <button type="button" data-testid="favorite-btn">
+            <img
+              style={ { width: '24.2px' } }
+              src="https://img.icons8.com/emoji/48/000000/heart-suit.png"
+              alt="será um componente"
+            />
+          </button>
+          <h4 data-testid="recipe-category">
+            { recipeInProgress.strCategory }
+          </h4>
+          <ul>
+            { ingredientList.map((ingredient, i) => (
+              <li key={ i } data-testid={ `${i}-ingredient-step` }>
+                <input
+                  checked={
+                    checkedIngredients.some((ing) => ing.includes(ingredient[1]))
+                  }
+                  type="checkbox"
+                  id={ ingredient[1] }
+                  name={ ingredient[0] }
+                  value={ ingredient[1] }
+                  onChange={ handleOnChange }
+                />
+                <label
+                  htmlFor={ ingredient[1] }
+                  className={
+                    checkedIngredients.some((ing) => ing.includes(ingredient[1]))
+            && 'line-through'
+                  }
+                >
+                  {ingredient[1]}
+                  :
+                  {' '}
+                  {measureList[i][1]}
+                </label>
 
-          </li>))}
-      </ul>
-      <p data-testid="instructions">
-        { recipeInProgress.strInstructions }
-      </p>
-      <button type="button" data-testid="finish-recipe-btn">FINISH RECIPE</button>
+              </li>))}
+          </ul>
+          <p data-testid="instructions">
+            { recipeInProgress.strInstructions }
+          </p>
+          <button type="button" data-testid="finish-recipe-btn">FINISH RECIPE</button>
+        </>
+      )}
     </section>
   );
 }

@@ -78,3 +78,32 @@ export const shareLink = (link, showMessage) => {
     showMessage(false);
   }, SHOW_MESSAGE_COPIED);
 };
+
+export const sendProgressRecipe = (type, recipe) => {
+  const getInProgressRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  if (getInProgressRecipe) {
+    getInProgressRecipe[type] = {
+      ...getInProgressRecipe[type],
+      ...recipe,
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(getInProgressRecipe));
+    return;
+  }
+  if (type === 'cocktails') {
+    const createCocktails = {
+      cocktails: {
+        ...recipe,
+      },
+      meals: {},
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(createCocktails));
+    return;
+  }
+  const createMeals = {
+    cocktails: {},
+    meals: {
+      ...recipe,
+    },
+  };
+  localStorage.setItem('inProgressRecipes', JSON.stringify(createMeals));
+};
