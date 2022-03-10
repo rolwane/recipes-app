@@ -1,0 +1,33 @@
+.content {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.div-recomends {
+  margin-bottom: 50px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.section-cardsRecomend {
+  display: flex;
+  gap: 10px;
+  overflow-x: scroll;
+}
+
+.btn-start {
+  bottom: 0;
+  position: fixed;
+  z-index: 10;
+}
+
+
+.recipe-photo {
+  width: 100%;
+}
+
+.videoRecipe {
+  width: 100%;
+}

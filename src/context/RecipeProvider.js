@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import RecipeContext from './RecipeContext';
 import { getTwelvesFoods } from '../services/foodsAPI';
 import { getTwelvesDrinks } from '../services/drinksAPI';
-import { MAX_FOODS_AND_DRINKS } from '../helpers/constants';
+import { MAX_FOODS_AND_DRINKS, MAX_LENGTH_RECOMMENDS } from '../helpers/constants';
 
 function RecipeProvider({ children }) {
   const [routeProps, setRouteProps] = useState({});
@@ -11,6 +11,8 @@ function RecipeProvider({ children }) {
   const [drinksRecipe, setDrinksRecipe] = useState([]);
   const [foodList, setFoodList] = useState([]);
   const [drinkList, setDrinkList] = useState([]);
+  const [recomendsDrinks, setRecomendsDrinks] = useState([]);
+  const [recomendsFoods, setRecomendsFoods] = useState([]);
 
   useEffect(() => {
     getTwelvesFoods()
@@ -18,6 +20,7 @@ function RecipeProvider({ children }) {
         const foods = response.meals.slice(0, MAX_FOODS_AND_DRINKS);
         setFoodList(foods);
         setFoodsRecipe(foods);
+        setRecomendsFoods(foods.slice(0, MAX_LENGTH_RECOMMENDS));
       });
 
     getTwelvesDrinks()
@@ -25,6 +28,7 @@ function RecipeProvider({ children }) {
         const drinks = response.drinks.slice(0, MAX_FOODS_AND_DRINKS);
         setDrinkList(drinks);
         setDrinksRecipe(drinks);
+        setRecomendsDrinks(drinks.slice(0, MAX_LENGTH_RECOMMENDS));
       });
   }, []);
 
@@ -37,6 +41,8 @@ function RecipeProvider({ children }) {
     setRouteProps,
     setFoodList,
     setDrinkList,
+    recomendsDrinks,
+    recomendsFoods,
   };
 
   return (
