@@ -27,3 +27,10 @@ export const getFoodsByCategory = async (category) => {
 
   return data;
 };
+
+export const getFoodsById = async (id) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
