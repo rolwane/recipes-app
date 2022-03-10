@@ -78,10 +78,10 @@ function RecipeFood(props) {
           />
           <div>
             <h3 data-testid="recipe-title">{ strMeal }</h3>
-            <button type="button" onClick={ () => shareLink(actualUrl, setLinkCopied) }>
+            <Button type="button" onClick={ () => shareLink(actualUrl, setLinkCopied) }>
               <img data-testid="share-btn" src={ shareIcon } alt="share icon" />
               { linkCopied && <span>Link copied!</span>}
-            </button>
+            </Button>
             <Button
               title={
                 <img
