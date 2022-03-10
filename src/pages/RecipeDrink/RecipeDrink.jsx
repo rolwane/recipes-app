@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
 import { getDrinksById } from '../../services/drinksAPI';
 import {
-  favoriteRecipes, desfavoriteRecipes, isFavorite,
-  isInProgress, isDone, verifiedIconFavorite,
+  favoriteRecipes, desfavoriteRecipes, isFavorite, getIngredients, getMeasure,
+  isInProgress, isDone, verifiedIconFavorite, shareLink,
 } from '../../helpers/functions';
 import './RecipeDrink.css';
 
@@ -15,18 +15,21 @@ import RecomendationCard from '../../components/RecomendationCard/RecomendationC
 import shareIcon from '../../images/shareIcon.svg';
 
 function RecipeDrink(props) {
-  const { match: { params: { id } } } = props;
+  const { match: { params: { id } }, history } = props;
   const { recomendsFoods } = useContext(RecipeContext);
+  const actualUrl = window.location.href;
 
   const [recipeDrink, setRecipeDrink] = useState([]);
   const {
-    strDrink, strCategory, strInstructions, strDrinkThumb, strArea, strAlcoholic,
+    strDrink, strCategory, strInstructions,
+    strDrinkThumb, strArea, strAlcoholic,
   } = recipeDrink;
 
   const [ingredients, setIngredients] = useState([]);
   const [measurents, setMeasurents] = useState([]);
   const [clickFavorite, setClickFavorite] = useState(1);
   const [isfavorited, setIsFavorited] = useState(isFavorite(strDrink));
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const handleFavoriteBtn = () => {
     const recipe = {
@@ -49,39 +52,17 @@ function RecipeDrink(props) {
     setClickFavorite((prevState) => prevState + 1);
   };
 
+  const handleStartBtn = () => {
+    history.push(`/drinks/${id}/in-progress`);
+  };
+
   useEffect(() => {
     getDrinksById(id).then((response) => setRecipeDrink(response.drinks[0]));
   }, []);
 
-  const getIngredients = () => {
-    const recipeDrinkArray = Object.entries(recipeDrink);
-
-    const ingredientesMap = recipeDrinkArray.map((key) => {
-      if (!key[0].includes('Ingredient')) {
-        return null;
-      }
-      return key[1];
-    }).filter((ingrediente) => ingrediente !== null);
-
-    const ingredientsFilter = ingredientesMap.filter((ingrediente) => ingrediente !== '');
-    return ingredientsFilter;
-  };
-
-  const getMeasure = () => {
-    const recipeDrinkArray = Object.entries(recipeDrink);
-    const measureMap = recipeDrinkArray.map((key) => {
-      if (!key[0].includes('Measure')) {
-        return null;
-      }
-      return key[1];
-    }).filter((medida) => medida !== null);
-    const measureFilter = measureMap.filter((medida) => medida !== '');
-    return measureFilter;
-  };
-
   useEffect(() => {
-    setIngredients(getIngredients());
-    setMeasurents(getMeasure());
+    setIngredients(getIngredients(recipeDrink));
+    setMeasurents(getMeasure(recipeDrink));
     setIsFavorited(isFavorite(strDrink));
   }, [recipeDrink, clickFavorite]);
 
@@ -97,9 +78,10 @@ function RecipeDrink(props) {
           />
           <div>
             <h3 data-testid="recipe-title">{ strDrink }</h3>
-            <Button
-              title={ <img data-testid="share-btn" src={ shareIcon } alt="share icon" /> }
-            />
+            <button type="button" onClick={ () => shareLink(actualUrl, setLinkCopied) }>
+              <img data-testid="share-btn" src={ shareIcon } alt="share icon" />
+              { linkCopied && <span>Link copied!</span> }
+            </button>
             <Button
               title={
                 <img
@@ -161,8 +143,9 @@ function RecipeDrink(props) {
           type="button"
           className="btn-start"
           data-testid="start-recipe-btn"
+          onClick={ handleStartBtn }
         >
-          { isInProgress(strDrink) ? 'Continue Recipe' : 'Start Recipe' }
+          { isInProgress(id, 'cocktails') ? 'Continue Recipe' : 'Start Recipe' }
         </button>
       )}
     </section>
