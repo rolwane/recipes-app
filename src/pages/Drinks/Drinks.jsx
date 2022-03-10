@@ -30,6 +30,8 @@ function Drinks(props) {
     });
   }, []);
 
+  useEffect(() => () => setDrinkList(drinksRecipe), []);
+
   const handleButton = async (strCategory) => {
     if (toggleFilter === strCategory || strCategory === 'All') {
       setDrinkList(drinksRecipe);
@@ -59,13 +61,16 @@ function Drinks(props) {
 
       <section>
         { drinkList.map((drink, index) => (
-          <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
-            <RecipeCard
-              image={ drink.strDrinkThumb }
-              name={ drink.strDrink }
-              index={ index }
-            />
-          </Link>
+          index < MAX_FOODS_AND_DRINKS && (
+            <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
+              <RecipeCard
+                image={ drink.strDrinkThumb }
+                name={ drink.strDrink }
+                index={ index }
+              />
+            </Link>
+          )
+
         ))}
       </section>
       <Footer />
