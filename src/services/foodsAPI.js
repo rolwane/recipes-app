@@ -34,3 +34,10 @@ export const getFoodsById = async (id) => {
 
   return data;
 };
+
+export const getRandomFood = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/random.php';
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
