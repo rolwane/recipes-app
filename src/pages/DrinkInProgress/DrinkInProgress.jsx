@@ -24,11 +24,15 @@ function DrinkInProgress(props) {
   useEffect(() => {
     setIsFavoriteRecipe(isFavorite(recipeInProgress.strMeal));
     const savedDrinkLS = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    getDrinksById(params.id).then((e) => setRecipeInProgress(e.drinks[0]));
     if (savedDrinkLS) {
       const ingredients = savedDrinkLS.cocktails[params.id];
-      setCheckIngredients(ingredients);
+      if (ingredients) {
+        setCheckIngredients(ingredients);
+      }
+      return;
     }
-    getDrinksById(params.id).then((e) => setRecipeInProgress(e.drinks[0]));
+    setCheckIngredients([]);
   }, [params.id]);
 
   useEffect(() => {
@@ -66,7 +70,35 @@ function DrinkInProgress(props) {
   };
 
   const handleClick = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const actualDate = `${day}/${month}/${year}`;
+
+    const recipe = {
+      id: params.id,
+      type: 'drink',
+      nationality: recipeInProgress.strDrink || '',
+      category: recipeInProgress.strCategory || '',
+      alcoholicOrNot: recipeInProgress.strAlcoholic || '',
+      name: recipeInProgress.strDrink,
+      image: recipeInProgress.strDrinkThumb,
+      doneDate: actualDate,
+      tags: recipeInProgress.strTags ? recipeInProgress.strTags.split(',') : '',
+    };
+
+    const getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const getInProgressRecipes = JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+    const sendDoneRecipe = getDoneRecipes !== null
+      ? [...getDoneRecipes, recipe] : [recipe];
+    console.log(sendDoneRecipe);
+
     history.push('/done-recipes');
+    localStorage.setItem('doneRecipes', JSON.stringify(sendDoneRecipe));
+    delete getInProgressRecipes.cocktails[params.id];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(getInProgressRecipes));
   };
   const handleShareClick = () => {
     const link = window.location.href;

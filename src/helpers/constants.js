@@ -5,3 +5,4 @@ export const NO_RECIPE_FOUND = 'Sorry, we haven\'t found any recipes for these f
 export const REGEX_VALID_EMAIL = /\w+@\w+\.\w+/;
 export const MAX_LENGTH_RECOMMENDS = 6;
 export const REMOVE_IN_PROGRESS = -12;
+export const MAX_LENGTH_TAGS = 2;
