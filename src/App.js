@@ -23,6 +23,7 @@ import RecipeFood from './pages/RecipeFood/RecipeFood';
 import RecipeDrink from './pages/RecipeDrink/RecipeDrink';
 import FoodsInProgress from './pages/FoodInProgress/FoodInProgress';
 import DrinkInProgress from './pages/DrinkInProgress/DrinkInProgress';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="/profile" component={ Profile } />
           <Route path="/done-recipes" component={ DoneRecipes } />
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+          <Route path="*" component={ NotFound } />
         </Switch>
       </BrowserRouter>
     </RecipeProvider>

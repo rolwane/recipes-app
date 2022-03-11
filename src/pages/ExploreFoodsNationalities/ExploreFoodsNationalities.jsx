@@ -1,41 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { getAreasFoods, getFoodsByArea, getFoods } from '../../services/foodsAPI';
 import { MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
 // import components
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import RecipeCard from '../../components/RepiceCard/RecipeCard';
-import RecipeContext from '../../context/RecipeContext';
+// import RecipeCard from '../../components/RepiceCard/RecipeCard';
 
 function FoodNationalities() {
-  const { foodsRecipe } = useContext(RecipeContext);
   const [nationalities, setNationalities] = useState([]);
+  const [reloadRecipes, setReloadRecipes] = useState(false);
   const [selectedNationality, setselectedNationality] = useState('');
-  const [foodNationality, setFoodNationality] = useState(foodsRecipe);
+  const [foodNationality, setFoodNationality] = useState([]);
 
   useEffect(() => {
     getAreasFoods().then(({ meals }) => {
       const filterMap = meals.map(({ strArea }) => strArea);
       const filterNationalities = filterMap
         .filter((food, index) => filterMap.indexOf(food) === index);
-      setNationalities(filterNationalities);
-      // setselectedNationality(filterNationalities[0]);
+      setNationalities(['All', ...filterNationalities]);
     });
   }, []);
 
-  console.log(foodNationality);
-
   useEffect(() => {
     if (selectedNationality) {
+      if (selectedNationality === 'All') {
+        setReloadRecipes(!reloadRecipes);
+        return;
+      }
       getFoodsByArea(selectedNationality).then(({ meals }) => setFoodNationality(meals));
     }
   }, [selectedNationality]);
 
   useEffect(() => {
     getFoods().then(({ meals }) => setFoodNationality(meals));
-  }, []);
+  }, [reloadRecipes]);
 
   return (
     <section>
@@ -56,20 +55,19 @@ function FoodNationalities() {
       </select>
       <section>
         {foodNationality.map((food, index) => (index < MAX_FOODS_AND_DRINKS && (
-          <Link
+          <a
             style={ { display: 'flex', flexDirection: 'column', height: 'fit-content' } }
-            to={ `/foods/${food.idMeal}` }
+            href={ `/foods/${food.idMeal}` }
             data-testid={ `${index}-recipe-card` }
             key={ index }
           >
-            <RecipeCard
-              key={ food.idMeal }
-              image={ food.strMealThumb }
-              name={ food.strMeal }
-              index={ index }
-              testId="card-link"
+            <img
+              src={ food.strMealThumb }
+              alt="recipe"
+              data-testid={ `${index}-card-img` }
             />
-          </Link>
+            <h3 data-testid={ `${index}-card-name` }>{food.strMeal}</h3>
+          </a>
         )))}
       </section>
       <Footer />
