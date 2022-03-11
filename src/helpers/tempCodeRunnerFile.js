@@ -1,1 +1,0 @@
-localStorage.setItem('inProgressRecipes', JSON.stringify(createCocktails));
