@@ -29,7 +29,7 @@ function DrinkInProgress(props) {
       setCheckIngredients(ingredients);
     }
     getDrinksById(params.id).then((e) => setRecipeInProgress(e.drinks[0]));
-  }, [params.id, recipeInProgress.strDrink]);
+  }, [params.id]);
 
   useEffect(() => {
     setIsFavoriteRecipe(isFavorite(recipeInProgress.strDrink));
@@ -156,7 +156,8 @@ function DrinkInProgress(props) {
             { recipeInProgress.strInstructions }
           </p>
           <button
-            disabled={ (ingredientList.length !== checkedIngredients.length) }
+            disabled={ checkedIngredients
+              && ingredientList.length !== checkedIngredients.length }
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ handleClick }
