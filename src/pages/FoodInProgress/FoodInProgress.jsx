@@ -25,11 +25,15 @@ function FoodInProgress(props) {
   useEffect(() => {
     setIsFavoriteRecipe(isFavorite(recipeInProgress.strMeal));
     const savedMealsLS = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    getFoodsById(params.id).then((e) => setRecipeInProgress(e.meals[0]));
     if (savedMealsLS) {
       const ingredients = savedMealsLS.meals[params.id];
-      setCheckIngredients(ingredients);
+      if (ingredients) {
+        setCheckIngredients(ingredients);
+      }
+      return;
     }
-    getFoodsById(params.id).then((e) => setRecipeInProgress(e.meals[0]));
+    setCheckIngredients([]);
   }, [params.id, recipeInProgress.strMeal]);
 
   useEffect(() => {
@@ -67,8 +71,37 @@ function FoodInProgress(props) {
   };
 
   const handleClick = () => {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const actualDate = `${day}/${month}/${year}`;
+
+    const recipe = {
+      id: params.id,
+      type: 'food',
+      nationality: recipeInProgress.strMeal || '',
+      category: recipeInProgress.strCategory || '',
+      alcoholicOrNot: '',
+      name: recipeInProgress.strMeal,
+      image: recipeInProgress.strMealThumb,
+      doneDate: actualDate,
+      tags: recipeInProgress.strTags ? recipeInProgress.strTags.split(',') : '',
+    };
+
+    const getDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const getInProgressRecipes = JSON
+      .parse(localStorage.getItem('inProgressRecipes'));
+    const sendDoneRecipe = getDoneRecipes !== null
+      ? [...getDoneRecipes, recipe] : [recipe];
+    console.log(sendDoneRecipe);
+
     history.push('/done-recipes');
+    localStorage.setItem('doneRecipes', JSON.stringify(sendDoneRecipe));
+    delete getInProgressRecipes.meals[params.id];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(getInProgressRecipes));
   };
+
   const handleShareClick = () => {
     const link = window.location.href;
     shareLink(link.slice(0, REMOVE_IN_PROGRESS), setShareLinkMsg);

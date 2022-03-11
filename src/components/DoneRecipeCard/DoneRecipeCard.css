@@ -1,0 +1,16 @@
+.photoAndNameCard {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  margin-bottom: 50px;
+}
+
+.photoAndNameCard img {
+  height: 100%;
+  width: 100%;
+}
+
+.categoryAndShare {
+  display: flex;
+  justify-content: space-between;
+}
