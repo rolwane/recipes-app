@@ -125,7 +125,7 @@ function RecipeDrink(props) {
               { recomendsFoods && recomendsFoods.map((recipe, index) => (
                 <Link
                   key={ index }
-                  to={ `/drinks/${recipe.idMeal}` }
+                  to={ `/foods/${recipe.idMeal}` }
                 >
                   <RecomendationCard
                     index={ index }

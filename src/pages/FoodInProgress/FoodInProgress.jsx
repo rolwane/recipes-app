@@ -159,7 +159,9 @@ function FoodInProgress(props) {
             { recipeInProgress.strInstructions }
           </p>
           <button
-            disabled={ (ingredientList.length !== checkedIngredients.length) }
+            disabled={
+              checkedIngredients && ingredientList.length !== checkedIngredients.length
+            }
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ handleClick }
