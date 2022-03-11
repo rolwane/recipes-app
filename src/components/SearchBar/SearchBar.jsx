@@ -41,7 +41,6 @@ function SearchBar() {
     }
 
     setFoodList(data.meals.slice(0, MAX_FOODS_AND_DRINKS));
-    // setfoods(data.meals.slice(0, MAX_FOODS_AND_DRINKS));
   };
 
   const handleSubmit = async (event) => {

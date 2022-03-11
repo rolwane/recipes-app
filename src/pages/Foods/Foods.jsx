@@ -33,6 +33,8 @@ function Foods(props) {
     });
   }, []);
 
+  useEffect(() => () => setFoodList(foodsRecipe), []);
+
   const handleButton = async (strCategory) => {
     if (toggleFilter === strCategory || strCategory === 'All') {
       setFoodList(foodsRecipe);
@@ -62,13 +64,15 @@ function Foods(props) {
 
       <section>
         { foodList.map((food, index) => (
-          <Link key={ index } to={ `/foods/${food.idMeal}` }>
-            <RecipeCard
-              image={ food.strMealThumb }
-              name={ food.strMeal }
-              index={ index }
-            />
-          </Link>
+          index < MAX_FOODS_AND_DRINKS && (
+            <Link key={ index } to={ `/foods/${food.idMeal}` }>
+              <RecipeCard
+                image={ food.strMealThumb }
+                name={ food.strMeal }
+                index={ index }
+              />
+            </Link>
+          )
         ))}
       </section>
       <Footer />
