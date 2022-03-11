@@ -93,7 +93,6 @@ function DrinkInProgress(props) {
       .parse(localStorage.getItem('inProgressRecipes'));
     const sendDoneRecipe = getDoneRecipes !== null
       ? [...getDoneRecipes, recipe] : [recipe];
-    console.log(sendDoneRecipe);
 
     history.push('/done-recipes');
     localStorage.setItem('doneRecipes', JSON.stringify(sendDoneRecipe));
