@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import RecipeContext from './RecipeContext';
-import { getTwelvesFoods } from '../services/foodsAPI';
-import { getTwelvesDrinks } from '../services/drinksAPI';
+import { getFoods } from '../services/foodsAPI';
+import { getDrinks } from '../services/drinksAPI';
 import { MAX_FOODS_AND_DRINKS, MAX_LENGTH_RECOMMENDS } from '../helpers/constants';
 
 function RecipeProvider({ children }) {
@@ -15,7 +15,7 @@ function RecipeProvider({ children }) {
   const [recomendsFoods, setRecomendsFoods] = useState([]);
 
   useEffect(() => {
-    getTwelvesFoods()
+    getFoods()
       .then((response) => {
         const foods = response.meals.slice(0, MAX_FOODS_AND_DRINKS);
         setFoodList(foods);
@@ -23,7 +23,7 @@ function RecipeProvider({ children }) {
         setRecomendsFoods(foods.slice(0, MAX_LENGTH_RECOMMENDS));
       });
 
-    getTwelvesDrinks()
+    getDrinks()
       .then((response) => {
         const drinks = response.drinks.slice(0, MAX_FOODS_AND_DRINKS);
         setDrinkList(drinks);

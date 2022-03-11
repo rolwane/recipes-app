@@ -16,7 +16,6 @@ function DoneRecipeCard({ recipe, index }) {
 
   const handleClick = () => {
     const actualLink = window.location.href.split('done');
-    console.log(actualLink);
     if (type === 'food') {
       const linkFood = `${actualLink[0]}foods/${id}`;
       shareLink(linkFood, setClickShareBtn);

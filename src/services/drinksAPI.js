@@ -7,7 +7,7 @@ export const getDrinksBySearchBar = async (searchValue, filter) => {
   return data;
 };
 
-export const getTwelvesDrinks = async () => {
+export const getDrinks = async () => {
   const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   const data = await (await fetch(url)).json();
 
