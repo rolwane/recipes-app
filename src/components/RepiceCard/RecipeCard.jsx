@@ -3,9 +3,9 @@ import propTypes from 'prop-types';
 
 import './RecipeCard.css';
 
-function RecipeCard({ image, name, index }) {
+function RecipeCard({ image, name, index, testId }) {
   return (
-    <section className="recipe-card" data-testid={ `${index}-recipe-card` }>
+    <section className="recipe-card" data-testid={ `${testId || index}-recipe-card` }>
       <img src={ image } alt="recipe" data-testid={ `${index}-card-img` } />
       <h3 data-testid={ `${index}-card-name` }>{name}</h3>
     </section>

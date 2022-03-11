@@ -57,8 +57,9 @@ function FoodNationalities() {
       <section>
         {foodNationality.map((food, index) => (index < MAX_FOODS_AND_DRINKS && (
           <Link
+            style={ { display: 'flex', flexDirection: 'column', height: 'fit-content' } }
             to={ `/foods/${food.idMeal}` }
-            // data-testid={ `${index}-recipe-card` }
+            data-testid={ `${index}-recipe-card` }
             key={ index }
           >
             <RecipeCard
@@ -66,6 +67,7 @@ function FoodNationalities() {
               image={ food.strMealThumb }
               name={ food.strMeal }
               index={ index }
+              testId="card-link"
             />
           </Link>
         )))}
