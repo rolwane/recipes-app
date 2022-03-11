@@ -1,28 +1,59 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getAreasFoods, getFoodsByArea } from '../../services/foodsAPI';
+import { MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
+
+// import components
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import Input from '../../components/Input/Input';
-import RecipeContext from '../../context/RecipeContext';
+import RecipeCard from '../../components/RepiceCard/RecipeCard';
 
 function FoodNationalities() {
-  const { foodsRecipe } = useContext(RecipeContext);
+  const [nationalities, setNationalities] = useState([]);
+  const [selectedNationality, setselectedNationality] = useState('American');
+  const [foodNationality, setfoodNationality] = useState([]);
 
-  const nationalities = foodsRecipe.map(({ strArea }) => strArea);
-  const filterNationalities = nationalities
-    .filter((food, index) => nationalities.indexOf(food) === index);
+  useEffect(() => {
+    getAreasFoods().then(({ meals }) => {
+      const filterMap = meals.map(({ strArea }) => strArea);
+      const filterNationalities = filterMap
+        .filter((food, index) => filterMap.indexOf(food) === index);
+      setNationalities(filterNationalities);
+    });
+  }, []);
 
-  // const nationalitiesOptions = filterNationalities
-  //   .map((item, index) => (<option key={ index }>{ item }</option>));
+  console.log(foodNationality);
+
+  useEffect(() => {
+    getFoodsByArea(selectedNationality).then(({ meals }) => setfoodNationality(meals));
+  }, [selectedNationality]);
 
   return (
     <section>
       <Header title="Explore Nationalities" renderSearch />
-      <Input
-        type="select"
-        testId="explore-by-nationality-dropdown"
-        value={ filterNationalities }
-      />
-      {console.log(filterNationalities)}
+      <select
+        data-testid="explore-by-nationality-dropdown"
+        onChange={ ({ target: { value } }) => setselectedNationality(value) }
+      >
+        {nationalities.map((item) => (
+
+          <option
+            key={ item }
+            // data-testid={ `${item}-option` }
+            value={ item }
+          >
+            {item}
+          </option>))}
+      </select>
+      <section>
+        {foodNationality.map((food, index) => (index < MAX_FOODS_AND_DRINKS && (
+          <RecipeCard
+            key={ food.idMeal }
+            image={ food.strMealThumb }
+            name={ food.strMeal }
+            index={ food.index }
+          />
+        )))}
+      </section>
       <Footer />
     </section>
   );

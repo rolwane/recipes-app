@@ -7,7 +7,7 @@ export const getFoodsBySearchBar = async (searchValue, filter) => {
   return data;
 };
 
-export const getTwelvesFoods = async () => {
+export const getFoods = async () => {
   const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const data = await (await fetch(url)).json();
 
@@ -51,6 +51,20 @@ export const getIngredientsFoods = async () => {
 
 export const getFoodsByIngredients = async (ingredient) => {
   const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`;
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
+
+export const getAreasFoods = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/list.php?a=list';
+  const data = await (await fetch(url)).json();
+
+  return data;
+};
+
+export const getFoodsByArea = async (area) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`;
   const data = await (await fetch(url)).json();
 
   return data;
