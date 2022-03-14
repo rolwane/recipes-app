@@ -5,7 +5,7 @@ import './RecomendationCard.css';
 
 function RecomendationCard({ image, name, index }) {
   return (
-    <section className="recipe-card" data-testid={ `${index}-recomendation-card` }>
+    <section className="recomendation-card" data-testid={ `${index}-recomendation-card` }>
       <img src={ image } alt="recipe" data-testid={ `${index}-card-img` } />
       <h3 data-testid={ `${index}-recomendation-title` }>{name}</h3>
     </section>

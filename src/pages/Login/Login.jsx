@@ -52,14 +52,20 @@ function Login({ history }) {
           onChange={ ({ target: { value } }) => setPassword(value) }
           placeholder="Password"
         />
-
-        <Input
+        <button
+          disabled={ disabled }
+          data-testId="login-submit-btn"
+          type="submit"
+        >
+          Login
+        </button>
+        {/* <Input
           name="button"
           type="submit"
           testId="login-submit-btn"
           value="Login"
           disabled={ disabled }
-        />
+        /> */}
       </form>
 
     </section>

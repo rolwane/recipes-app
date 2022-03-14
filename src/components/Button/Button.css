@@ -1,0 +1,19 @@
+.category-active {
+  background-color: var(--red);
+  border: none;
+  border-radius: 100px;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 10px 15px;
+}
+
+.button-category {
+  background-color: whitesmoke;
+  border: none;
+  border-radius: 100px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 15px;
+}

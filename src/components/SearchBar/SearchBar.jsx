@@ -1,5 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
+import propTypes from 'prop-types';
 import RepiceContext from '../../context/RecipeContext';
+
+import './SearchBar.css';
 
 import { getFoodsBySearchBar } from '../../services/foodsAPI';
 import { getDrinksBySearchBar } from '../../services/drinksAPI';
@@ -8,9 +11,9 @@ import { MAX_FOODS_AND_DRINKS, NO_RECIPE_FOUND } from '../../helpers/constants';
 // imported components
 import Input from '../Input/Input';
 
-function SearchBar() {
+function SearchBar({ className, setShowInput }) {
   const {
-    routeProps: { history, match: { path } },
+    routeProps,
     setFoodList,
     setDrinkList,
     foodList,
@@ -27,9 +30,7 @@ function SearchBar() {
       global.alert(NO_RECIPE_FOUND);
       return;
     }
-
     setDrinkList(data.drinks.slice(0, MAX_FOODS_AND_DRINKS));
-    // setDrinks(data.drinks.slice(0, MAX_FOODS_AND_DRINKS));
   };
 
   const loadFoods = async () => {
@@ -45,6 +46,9 @@ function SearchBar() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowInput(false);
+
+    const { match: { path } } = routeProps;
 
     if (searchFilter === 'f' && search.length > 1) {
       global.alert('Your search must have only 1 (one) character');
@@ -60,6 +64,7 @@ function SearchBar() {
   };
 
   const redirectToDetails = (type, id, state) => {
+    const { history } = routeProps;
     const idRecipe = state[0][id];
     history.push(`/${type}/${idRecipe}`);
   };
@@ -70,55 +75,70 @@ function SearchBar() {
   }, [drinkList, foodList]);
 
   return (
-    <form onSubmit={ handleSubmit }>
+    <section className={ `search-bar ${className}` }>
 
-      <Input
-        type="text"
-        name="search"
-        value={ search }
-        placeholder="Buscar..."
-        testId="search-input"
-        onChange={ ({ target: { value } }) => setSearch(value) }
-      />
+      <form onSubmit={ handleSubmit }>
 
-      <Input
-        label="Ingredients"
-        type="radio"
-        id="ingredient-search-radio"
-        name="search-category"
-        testId="ingredient-search-radio"
-        value="i"
-        onChange={ ({ target: { value } }) => setsearchFilter(value) }
-      />
+        <Input
+          type="text"
+          name="search"
+          value={ search }
+          placeholder="Buscar..."
+          testId="search-input"
+          onChange={ ({ target: { value } }) => setSearch(value) }
+        />
 
-      <Input
-        label="Name"
-        type="radio"
-        name="search-category"
-        id="name-search-radio"
-        testId="name-search-radio"
-        value="s"
-        onChange={ ({ target: { value } }) => setsearchFilter(value) }
-      />
+        <section className="radios">
+          <Input
+            label="Ingredients"
+            type="radio"
+            id="ingredient-search-radio"
+            name="search-category"
+            testId="ingredient-search-radio"
+            value="i"
+            onChange={ ({ target: { value } }) => setsearchFilter(value) }
+            searchFilter={ searchFilter }
+          />
 
-      <Input
-        label="First Letter"
-        type="radio"
-        name="search-category"
-        id="first-letter-search-radio"
-        testId="first-letter-search-radio"
-        value="f"
-        onChange={ ({ target: { value } }) => setsearchFilter(value) }
-      />
+          <Input
+            label="Name"
+            type="radio"
+            name="search-category"
+            id="name-search-radio"
+            testId="name-search-radio"
+            value="s"
+            onChange={ ({ target: { value } }) => setsearchFilter(value) }
+            searchFilter={ searchFilter }
+          />
 
-      <Input
-        type="submit"
-        testId="exec-search-btn"
-        value="Search"
-      />
+          <Input
+            label="First Letter"
+            type="radio"
+            name="search-category"
+            id="first-letter-search-radio"
+            testId="first-letter-search-radio"
+            value="f"
+            onChange={ ({ target: { value } }) => setsearchFilter(value) }
+            searchFilter={ searchFilter }
+          />
+        </section>
 
-    </form>
+        <Input
+          type="submit"
+          testId="exec-search-btn"
+          value="Search"
+        />
+
+      </form>
+
+    </section>
+
   );
 }
+
+SearchBar.propTypes = {
+  className: propTypes.string,
+  setShowInput: propTypes.func,
+}.isRequired;
 
 export default SearchBar;

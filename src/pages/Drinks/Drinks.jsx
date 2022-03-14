@@ -48,18 +48,23 @@ function Drinks(props) {
     <section>
       <Header title="Drinks" renderSearch />
 
-      <article>
+      <section className="container-categories">
         { categoriesDrinks.map(({ strCategory }) => (
           <Button
             key={ strCategory }
             title={ strCategory }
             testId={ `${strCategory}-category-filter` }
             onClick={ () => handleButton(strCategory) }
+            className={
+              (toggleFilter === strCategory)
+                || (!toggleFilter && strCategory === 'All')
+                ? 'category-active' : 'button-category'
+            }
           />
         ))}
-      </article>
+      </section>
 
-      <section>
+      <section className="container">
         { drinkList.map((drink, index) => (
           index < MAX_FOODS_AND_DRINKS && (
             <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
@@ -70,7 +75,6 @@ function Drinks(props) {
               />
             </Link>
           )
-
         ))}
       </section>
       <Footer />

@@ -1,12 +1,15 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+import './Button.css';
+
 function Button(props) {
   const {
     children = null,
     title = '',
     testId = null,
     onClick = null,
+    className = null,
   } = props;
 
   return (
@@ -14,6 +17,7 @@ function Button(props) {
       type="button"
       data-testid={ testId }
       onClick={ onClick }
+      className={ className }
     >
       { title || children }
     </button>

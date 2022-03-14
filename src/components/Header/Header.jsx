@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { FaUserCircle } from 'react-icons/fa';
 import propTypes from 'prop-types';
 
-// imported icons
-import searchIcon from '../../images/searchIcon.svg';
-import profileIcon from '../../images/profileIcon.svg';
+import './Header.css';
 
 // imported components
 import SearchBar from '../SearchBar/SearchBar';
@@ -18,22 +18,21 @@ function Header(props) {
     <header>
 
       <Link to="/profile">
-        <img
-          src={ profileIcon }
-          alt="a profile icon"
-          data-testid="profile-top-btn"
-        />
+        <FaUserCircle className="profile-icon" />
       </Link>
 
       <h1 data-testid="page-title">{title}</h1>
 
       {renderSearch && (
-        <Button onClick={ () => setShowInput(!showInput) }>
-          <img src={ searchIcon } data-testid="search-top-btn" alt=" a search icon" />
+        <Button onClick={ () => setShowInput(!showInput) } className="btn-search">
+          <AiOutlineSearch />
         </Button>
       )}
 
-      { showInput && <SearchBar /> }
+      <SearchBar
+        className={ showInput ? 'show-searchbar' : '' }
+        setShowInput={ setShowInput }
+      />
     </header>
   );
 }

@@ -6,6 +6,8 @@ import RecipeContext from '../../context/RecipeContext';
 import { getCategoriesFoods, getFoodsByCategory } from '../../services/foodsAPI';
 import { MAX_CATEGORIES, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
+import './Foods.css';
+
 // imported components
 import Header from '../../components/Header/Header';
 import RecipeCard from '../../components/RepiceCard/RecipeCard';
@@ -51,21 +53,29 @@ function Foods(props) {
     <section>
       <Header title="Foods" renderSearch />
 
-      <article>
+      <section className="container-categories">
         { categoriesFoods.map(({ strCategory }) => (
           <Button
             key={ strCategory }
             title={ strCategory }
             testId={ `${strCategory}-category-filter` }
             onClick={ () => handleButton(strCategory) }
+            className={
+              (toggleFilter === strCategory)
+                || (!toggleFilter && strCategory === 'All')
+                ? 'category-active' : 'button-category'
+            }
           />
         ))}
-      </article>
+      </section>
 
-      <section>
+      <section className="container">
         { foodList.map((food, index) => (
           index < MAX_FOODS_AND_DRINKS && (
-            <Link key={ index } to={ `/foods/${food.idMeal}` }>
+            <Link
+              key={ index }
+              to={ `/foods/${food.idMeal}` }
+            >
               <RecipeCard
                 image={ food.strMealThumb }
                 name={ food.strMeal }

@@ -1,0 +1,22 @@
+header {
+  align-items: center;
+  background-color: var(--red);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  position: relative;
+}
+
+.profile-icon {
+  color: white;
+  font-size: 30px;
+}
+
+.btn-search {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  font-size: 28px;
+}

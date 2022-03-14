@@ -14,11 +14,14 @@ function Input(props) {
     testId = null,
     onChange = null,
     disabled = false,
+    searchFilter,
   } = props;
 
   return (
-    <label htmlFor={ id || name }>
-      {label}
+    <label
+      htmlFor={ id || name }
+      className={ searchFilter === value ? 'label-active' : '' }
+    >
       <input
         name={ name }
         type={ type }
@@ -29,7 +32,9 @@ function Input(props) {
         onChange={ onChange }
         disabled={ disabled }
         className="input"
+        required
       />
+      {label}
     </label>
   );
 }
