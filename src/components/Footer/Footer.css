@@ -1,9 +1,23 @@
 footer {
-  background-color: '#e5e5e5';
+  background-color: white;
   bottom: 0;
+  box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding: 12px 8px 8px;
   position: fixed;
   width: 100%;
+}
+
+footer .footer-icon {
+  border-radius: 10px;
+  color: var(--blue);
+  font-size: 45px;
+  padding: 10px;
+}
+
+footer .page-active {
+  background-color: var(--red);
+  color: white;
 }

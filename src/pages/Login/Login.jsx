@@ -54,8 +54,9 @@ function Login({ history }) {
         />
         <button
           disabled={ disabled }
-          data-testId="login-submit-btn"
+          data-testid="login-submit-btn"
           type="submit"
+          className="btn-login"
         >
           Login
         </button>

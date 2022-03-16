@@ -1,0 +1,40 @@
+.explore-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 120px 20px 20px;
+}
+
+.card-link, .btn-surprise-me {
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  justify-content: center;
+  min-width: 45%;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.btn-surprise-me {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.explore-icon {
+  color: var(--blue);
+  font-size: 50px;
+}
+
+.card-link span, .btn-surprise-me span {
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 10px;
+}

@@ -1,11 +1,19 @@
 .category-active {
-  background-color: var(--red);
+  background-color: rgba(214, 40, 40, 0.25);
   border: none;
   border-radius: 100px;
-  color: white;
+  color: var(--red);
   font-size: 12px;
   font-weight: 800;
   padding: 10px 15px;
+}
+
+.container-buttons-drink {
+  display: flex;
+  gap: 10px;
+  overflow-x: scroll;
+  padding-bottom: 8px;
+  scrollbar-color: white white;
 }
 
 .button-category {
@@ -16,4 +24,12 @@
   font-size: 12px;
   font-weight: 700;
   padding: 10px 15px;
+}
+
+.container-buttons .category-active:nth-child( 2 ) {
+  white-space: nowrap;
+}
+
+.container-buttons .button-category:nth-child( 2 ) {
+  white-space: nowrap;
 }

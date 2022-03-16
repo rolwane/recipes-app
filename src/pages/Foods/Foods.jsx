@@ -54,19 +54,21 @@ function Foods(props) {
       <Header title="Foods" renderSearch />
 
       <section className="container-categories">
-        { categoriesFoods.map(({ strCategory }) => (
-          <Button
-            key={ strCategory }
-            title={ strCategory }
-            testId={ `${strCategory}-category-filter` }
-            onClick={ () => handleButton(strCategory) }
-            className={
-              (toggleFilter === strCategory)
+        <div className="container-buttons">
+          { categoriesFoods.map(({ strCategory }) => (
+            <Button
+              key={ strCategory }
+              title={ strCategory }
+              testId={ `${strCategory}-category-filter` }
+              onClick={ () => handleButton(strCategory) }
+              className={
+                (toggleFilter === strCategory)
                 || (!toggleFilter && strCategory === 'All')
-                ? 'category-active' : 'button-category'
-            }
-          />
-        ))}
+                  ? 'category-active' : 'button-category'
+              }
+            />
+          ))}
+        </div>
       </section>
 
       <section className="container">
@@ -85,7 +87,7 @@ function Foods(props) {
           )
         ))}
       </section>
-      <Footer />
+      <Footer page="foods" />
     </section>
   );
 }

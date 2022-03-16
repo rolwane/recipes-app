@@ -16,14 +16,14 @@
 }
 
 body {
-  background-color: var(--yellow);
+  background-color: white;
 }
 
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  padding: 20px 20px 100px;
+  padding: 150px 20px 100px;
 }
 
 .container a {

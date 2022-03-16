@@ -1,5 +1,11 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+// import { BiWorld } from 'react-icons/bi';
+import { GiFruitBowl, GiEarthAmerica } from 'react-icons/gi';
+import { BiShuffle } from 'react-icons/bi';
+
 import { getRandomFood } from '../../services/foodsAPI';
 
 // import components
@@ -17,22 +23,28 @@ function ExploreFoods({ history }) {
   return (
     <section>
       <Header title="Explore Foods" />
-      <Button
-        testId="explore-by-ingredient"
-        title="By Ingredient"
-        onClick={ () => history.push('/explore/foods/ingredients') }
-      />
-      <Button
-        testId="explore-by-nationality"
-        title="By Nationality"
-        onClick={ () => history.push('/explore/foods/nationalities') }
-      />
-      <Button
-        testId="explore-surprise"
-        title="Surprise me!"
-        onClick={ handleSurprise }
-      />
-      <Footer />
+      <div className="explore-container">
+
+        <Link to="/explore/foods/ingredients" className="card-link">
+          <GiFruitBowl className="explore-icon" />
+          <span>By Ingredient</span>
+        </Link>
+
+        <Link to="/explore/foods/nationalities" className="card-link">
+          <GiEarthAmerica className="explore-icon" />
+          <span>By Nationality</span>
+        </Link>
+
+        <Button
+          testId="explore-surprise"
+          onClick={ handleSurprise }
+          className="btn-surprise-me"
+        >
+          <BiShuffle className="explore-icon" />
+          <span>Surprise me!</span>
+        </Button>
+      </div>
+      <Footer page="explore" />
     </section>
   );
 }

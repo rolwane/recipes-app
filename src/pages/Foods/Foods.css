@@ -1,6 +1,22 @@
 .container-categories {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px 0 8px 20px;
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  z-index: 1;
+}
+
+.container-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  padding: 20px;
+  gap: 10px;
+  overflow-x: scroll;
+  padding-bottom: 8px;
+  scrollbar-color: white white;
+}
+
+.container-buttons::-webkit-scrollbar {
+  display: none;
 }

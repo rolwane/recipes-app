@@ -1,25 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import drinkIcon from '../../images/drinkIcon.svg';
-import exploreIcon from '../../images/exploreIcon.svg';
-import mealIcon from '../../images/mealIcon.svg';
+import propTypes from 'prop-types';
+
+import { MdFastfood } from 'react-icons/md';
+import { FaCompass, FaCocktail } from 'react-icons/fa';
 
 import './Footer.css';
 
-function Footer() {
+function Footer({ page }) {
+  const classActive = 'page-active';
   return (
     <footer data-testid="footer">
-      <Link to="/drinks">
-        <img src={ drinkIcon } data-testid="drinks-bottom-btn" alt="drink icon" />
+      <Link to="/foods">
+        <MdFastfood className={ `footer-icon ${page === 'foods' && classActive}` } />
       </Link>
+
       <Link to="/explore">
-        <img src={ exploreIcon } data-testid="explore-bottom-btn" alt="explore icon" />
+        <FaCompass className={ `footer-icon ${page === 'explore' && classActive}` } />
       </Link>
-      <Link to="foods">
-        <img src={ mealIcon } data-testid="food-bottom-btn" alt="meal icon" />
+
+      <Link to="/drinks">
+        <FaCocktail className={ `footer-icon ${page === 'drinks' && classActive}` } />
       </Link>
     </footer>
   );
 }
+
+Footer.propTypes = {
+  page: propTypes.string,
+}.isRequired;
 
 export default Footer;

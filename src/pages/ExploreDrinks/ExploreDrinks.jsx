@@ -1,5 +1,9 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+import { BiShuffle } from 'react-icons/bi';
+import { FaCocktail } from 'react-icons/fa';
 import { getRandomDrink } from '../../services/drinksAPI';
 
 // import components
@@ -16,17 +20,22 @@ function ExploreDrinks({ history }) {
   return (
     <section>
       <Header title="Explore Drinks" />
-      <Button
-        testId="explore-by-ingredient"
-        title="By Ingredient"
-        onClick={ () => history.push('/explore/drinks/ingredients') }
-      />
-      <Button
-        testId="explore-surprise"
-        title="Surprise me!"
-        onClick={ handleSurprise }
-      />
-      <Footer />
+      <div className="explore-container">
+        <Link to="/explore/drinks/ingredients" className="card-link">
+          <FaCocktail className="explore-icon" />
+          <span>Explore Drinks</span>
+        </Link>
+
+        <Button
+          testId="explore-surprise"
+          onClick={ handleSurprise }
+          className="btn-surprise-me"
+        >
+          <BiShuffle className="explore-icon" />
+          <span>Surprise me!</span>
+        </Button>
+      </div>
+      <Footer page="explore" />
     </section>
   );
 }
