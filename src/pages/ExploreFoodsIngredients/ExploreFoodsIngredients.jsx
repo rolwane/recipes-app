@@ -9,7 +9,6 @@ import { MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import FoodIngredientCard from '../../components/FoodIngredientCard/FoodIngredientCard';
-import Button from '../../components/Button/Button';
 
 function ExploreFoodsIngredients({ history }) {
   const [ingredients, setIngredients] = useState([]);
@@ -34,24 +33,21 @@ function ExploreFoodsIngredients({ history }) {
   return (
     <section>
       <Header title="Explore Ingredients" />
-
-      {
-        ingredients.map((ingredient, index) => (
-          index < MAX_FOODS_AND_DRINKS && (
-            <Button
-              onClick={ () => handleSelectIngredient(ingredient.strIngredient) }
-              key={ index }
-            >
+      <div className="ingredients-container">
+        {
+          ingredients.map((ingredient, index) => (
+            index < MAX_FOODS_AND_DRINKS && (
               <FoodIngredientCard
                 key={ ingredient.idIngredient }
                 index={ index }
                 data={ ingredient }
+                onClick={ () => handleSelectIngredient(ingredient.strIngredient) }
               />
-            </Button>
-          )
+            )
 
-        ))
-      }
+          ))
+        }
+      </div>
 
       <Footer />
     </section>

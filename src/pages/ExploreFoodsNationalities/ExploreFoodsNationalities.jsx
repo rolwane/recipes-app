@@ -5,7 +5,8 @@ import { MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 // import components
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-// import RecipeCard from '../../components/RepiceCard/RecipeCard';
+
+import './ExploreFoodsNationalities.css';
 
 function FoodNationalities() {
   const [nationalities, setNationalities] = useState([]);
@@ -39,27 +40,33 @@ function FoodNationalities() {
   return (
     <section>
       <Header title="Explore Nationalities" renderSearch />
-      <select
-        data-testid="explore-by-nationality-dropdown"
-        onChange={ ({ target: { value } }) => setselectedNationality(value) }
-      >
-        {nationalities.map((item) => (
 
-          <option
-            key={ item }
-            data-testid={ `${item}-option` }
-            value={ item }
-          >
-            {item}
-          </option>))}
-      </select>
-      <section>
+      <div className="select-container">
+        <select
+          data-testid="explore-by-nationality-dropdown"
+          onChange={ ({ target: { value } }) => setselectedNationality(value) }
+          className="select-nationality"
+        >
+          {nationalities.map((item) => (
+            <option
+              key={ item }
+              data-testid={ `${item}-option` }
+              value={ item }
+            >
+              {item}
+            </option>))}
+
+        </select>
+      </div>
+
+      <section className="container" style={ { paddingTop: '20px' } }>
         {foodNationality.map((food, index) => (index < MAX_FOODS_AND_DRINKS && (
           <a
             style={ { display: 'flex', flexDirection: 'column', height: 'fit-content' } }
             href={ `/foods/${food.idMeal}` }
             data-testid={ `${index}-recipe-card` }
             key={ index }
+            className="recipe-card"
           >
             <img
               src={ food.strMealThumb }

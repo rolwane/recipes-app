@@ -1,16 +1,52 @@
-.photoAndNameCard {
+.done-recipe-card {
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  height: fit-content;
-  margin-bottom: 50px;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
 
-.photoAndNameCard img {
-  height: 100%;
+.done-recipe-content {
+  display: flex;
+  gap: 15px;
+}
+
+.recipe-image {
+  border-radius: 10px;
+  max-width: 100px;
   width: 100%;
 }
 
-.categoryAndShare {
+.done-recipes-container {
+  padding: 150px 20px 20px;
+}
+
+.done-recipe-title {
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.done-recipe-span {
+  color: rgba(0, 0, 0, 0.6);
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.done-share-button {
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   display: flex;
-  justify-content: space-between;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.check-icon {
+  color: var(--blue);
+  font-size: 30px;
 }

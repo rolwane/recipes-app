@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { GiShare } from 'react-icons/gi';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import RecipeContext from '../../context/RecipeContext';
 import { getFoodsById } from '../../services/foodsAPI';
 import {
@@ -12,7 +14,6 @@ import './RecipeFood.css';
 // import components
 import Button from '../../components/Button/Button';
 import RecomendationCard from '../../components/RecomendationCard/RecomendationCard';
-import shareIcon from '../../images/shareIcon.svg';
 
 function RecipeFood(props) {
   const { match: { params: { id } }, history } = props;
@@ -67,7 +68,15 @@ function RecipeFood(props) {
   }, [recipeFood, clickFavorite]);
 
   return (
-    <section className="content">
+    <section>
+      <Button
+        type="button"
+        onClick={ () => history.goBack() }
+        className="back-button"
+      >
+        <IoMdArrowRoundBack />
+      </Button>
+
       { recipeFood && (
         <>
           <img
@@ -76,54 +85,63 @@ function RecipeFood(props) {
             data-testid="recipe-photo"
             className="recipe-photo"
           />
-          <div>
-            <h3 data-testid="recipe-title">{ strMeal }</h3>
-            <Button type="button" onClick={ () => shareLink(actualUrl, setLinkCopied) }>
-              <img data-testid="share-btn" src={ shareIcon } alt="share icon" />
-              { linkCopied && <span>Link copied!</span>}
-            </Button>
-            <Button
-              title={
+
+          <div className="container-infos">
+            <h3 data-testid="recipe-title" className="recipe-title">{ strMeal }</h3>
+
+            <div className="container-recipe-buttons">
+              <Button type="button" onClick={ () => shareLink(actualUrl, setLinkCopied) }>
+
+                {
+                  linkCopied
+                    ? <span className="span">Link copied!</span>
+                    : <GiShare className="share-icon" />
+                }
+
+              </Button>
+
+              <Button
+                onClick={ handleFavoriteBtn }
+              >
                 <img
                   data-testid="favorite-btn"
                   src={ verifiedIconFavorite(isfavorited) }
                   alt="favorite icon"
                 />
-              }
-              onClick={ handleFavoriteBtn }
-            />
+              </Button>
+            </div>
           </div>
-          <h4 data-testid="recipe-category">{ strCategory }</h4>
-          <div>
-            <h4>Ingredients</h4>
-            <p>
-              { measurents.map((medida, index) => (
-                <span
-                  key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  { medida }
-                </span>
-              ))}
-              { ingredients.map((ingrediente, index) => (
-                <span
-                  key={ index }
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                >
-                  { ingrediente }
-                </span>
-              )) }
-            </p>
+
+          <h4
+            data-testid="recipe-category"
+            className="recipe-category"
+          >
+            { strCategory }
+          </h4>
+
+          <div className="container-recipe-ingradients">
+            <h4 className="ingredients-title">Ingredients</h4>
+
+            { ingredients.map((ingrediente, index) => (
+              <div key={ index } className="recipe-ingredient">
+                <span>{ingrediente}</span>
+                <span className="separator" />
+                <span>{measurents[index]}</span>
+              </div>
+            )) }
+
           </div>
-          <div>
-            <h4>Instructions</h4>
-            <p data-testid="instructions">{ strInstructions }</p>
+
+          <div className="container-instructions">
+            <h4 className="instructions-title">Instructions</h4>
+            <p data-testid="instructions" className="instructions">{ strInstructions }</p>
           </div>
+
           <div>
-            <h4>Video</h4>
+            <h4 className="video-title">Video</h4>
             <iframe
               data-testid="video"
-              className="videoRecipe"
+              className="recipe-video"
               height="315"
               src={ `https://www.youtube.com/embed/${idYoutube || ''}` }
               title="YouTube video player"
@@ -131,23 +149,28 @@ function RecipeFood(props) {
               allowFullScreen
             />
           </div>
-          <div className="div-recomends">
-            <h4>Recommend</h4>
-            <section className="section-cardsRecomend">
+
+          <div className="container-recommends">
+            <h4 className="video-title">Recommend</h4>
+            <section className="cards-recommends">
               { recomendsDrinks && recomendsDrinks.map((recipe, index) => (
                 <Link
                   key={ index }
                   to={ `/drinks/${recipe.idDrink}` }
+                  style={ { textDecoration: 'none' } }
                 >
+
                   <RecomendationCard
                     index={ index }
                     name={ recipe.strDrink }
                     image={ recipe.strDrinkThumb }
                   />
+
                 </Link>
               ))}
             </section>
           </div>
+
         </>
       )}
       { !isDone(strMeal) && (

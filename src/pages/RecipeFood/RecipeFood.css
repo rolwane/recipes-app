@@ -1,33 +1,155 @@
-.content {
-  align-items: center;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-}
-
-.div-recomends {
-  margin-bottom: 50px;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.section-cardsRecomend {
-  display: flex;
-  gap: 10px;
-  overflow-x: scroll;
-}
-
-.btn-start {
-  bottom: 0;
-  position: fixed;
-  z-index: 10;
-}
-
-
 .recipe-photo {
   width: 100%;
 }
 
-.videoRecipe {
+.recipe-title {
+  color: var(--blue);
+  font-size: 30px;
+  font-weight: 700;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.container-infos {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-recipe-buttons {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 20px 20px;
+}
+
+.container-recipe-buttons button {
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  height: 55px;
+  justify-content: center;
   width: 100%;
+}
+
+.share-icon {
+  font-size: 25px;
+}
+
+.span {
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.recipe-category {
+  color: var(--blue);
+  padding: 0 20px;
+  text-align: center;
+}
+
+.container-recipe-ingradients, .container-instructions {
+  padding: 20px;
+}
+
+.recipe-ingredient {
+  align-items: center;
+  color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  font-weight: 600;
+  gap: 10px;
+  justify-content: center;
+  line-height: 30px;
+}
+
+.ingredients-title, .instructions-title {
+  color: var(--blue);
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.instructions {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  line-height: 28px;
+  text-align: justify;
+}
+
+.video-title {
+  color: var(--blue);
+  font-size: 18px;
+  padding: 20px 20px 0;
+}
+
+.recipe-video {
+  height: 220px;
+  padding: 20px;
+  width: 100%;
+}
+
+.separator {
+  border-top: 2px dotted rgba(0, 0, 0, 0.5);
+  display: block;
+  flex: 1;
+  height: 2px;
+  width: 100%;
+}
+
+.container-recommends {
+  overflow: hidden;
+  padding-bottom: 80px;
+  width: 100%;
+}
+
+.cards-recommends {
+  display: flex;
+  gap: 10px;
+  overflow-x: scroll;
+  padding: 20px;
+  width: 100%;
+}
+
+.recommend-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 100%;
+}
+
+.recommend-card img {
+  border-radius: 10px;
+  width: 135px;
+}
+
+.recommend-card h3 {
+  color: var(--blue);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.btn-start {
+  background-color: var(--red);
+  border: none;
+  border-radius: 7px 7px 0 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  height: 50px;
+  width: 100%;
+}
+
+.back-button {
+  align-items: center;
+  background-color: var(--red);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  font-size: 25px;
+  height: 40px;
+  justify-content: center;
+  position: absolute;
+  width: 40px;
 }

@@ -31,3 +31,10 @@ body {
   font-size: 12px;
   color: var(--blue);
 }
+
+.ingredients-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 100px 20px 120px;
+}

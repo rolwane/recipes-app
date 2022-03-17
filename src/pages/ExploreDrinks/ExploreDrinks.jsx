@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { BiShuffle } from 'react-icons/bi';
-import { FaCocktail } from 'react-icons/fa';
+import { GiCutLemon } from 'react-icons/gi';
 import { getRandomDrink } from '../../services/drinksAPI';
 
 // import components
@@ -22,8 +22,8 @@ function ExploreDrinks({ history }) {
       <Header title="Explore Drinks" />
       <div className="explore-container">
         <Link to="/explore/drinks/ingredients" className="card-link">
-          <FaCocktail className="explore-icon" />
-          <span>Explore Drinks</span>
+          <GiCutLemon className="explore-icon" />
+          <span>By ingredient</span>
         </Link>
 
         <Button

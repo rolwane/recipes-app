@@ -1,0 +1,18 @@
+.ingredient-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 10px;
+}
+
+.ingredient-card img {
+  border-radius: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.ingredient-card h3 {
+  color: var(--blue);
+  font-size: 13px;
+}

@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { BsCheck } from 'react-icons/bs';
+import { GiShare } from 'react-icons/gi';
 import { shareLink,
   verifiedIconFavorite,
   desfavoriteRecipes,
 } from '../../helpers/functions';
 import Header from '../../components/Header/Header';
 import Button from '../../components/Button/Button';
-import shareIcon from '../../images/shareIcon.svg';
+import Footer from '../../components/Footer/Footer';
+// import shareIcon from '../../images/shareIcon.svg';
 
 function FavoriteRecipes() {
   const isFavorited = true;
-  const [filter, setFilter] = useState('all');
+  const [filterRecipes, setFilterRecipes] = useState('all');
   const [favoriteList, setFavoriteList] = useState([]);
   const [shareLinkMsg, setShareLinkMsg] = useState(false);
   const [clickFavorite, setClickFavorite] = useState(1);
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (filter !== 'all') {
-      const filtered = favorites.filter((favorite) => favorite.type === filter);
+    if (filterRecipes !== 'all') {
+      const filtered = favorites.filter((favorite) => favorite.type === filterRecipes);
       setFavoriteList(filtered);
       return;
     }
     setFavoriteList(favorites);
-  }, [clickFavorite, filter]);
+  }, [clickFavorite, filterRecipes]);
 
   const handleShareClick = (type, id) => {
     const link = window.location.href.split('favorite-recipes');
@@ -35,83 +38,105 @@ function FavoriteRecipes() {
     setClickFavorite((prevState) => prevState + 1);
   };
 
+  const classActive = 'category-active';
+  const classButton = 'button-category';
+  const history = useHistory();
+
   return (
     <section>
       <Header title="Favorite Recipes" />
-      <div>
-        <Button
-          title="All"
-          onClick={ () => setFilter('all') }
-          testId="filter-by-all-btn"
-        />
-        <Button
-          title="Foods"
-          onClick={ () => setFilter('food') }
-          testId="filter-by-food-btn"
-        />
-        <Button
-          title="Drinks"
-          onClick={ () => setFilter('drink') }
-          testId="filter-by-drink-btn"
-        />
 
-      </div>
-      { favoriteList
-      && favoriteList.map((favorite, i) => (
-        <div key={ favorite.id }>
-          <Link
-            to={ `/${favorite.type}s/${favorite.id}` }
-            style={ { display: 'flex',
-              flexDirection: 'column',
-              height: 'fit-content' } }
-          >
+      <section className="container-categories">
+        <div className="container-buttons">
+          <Button
+            title="All"
+            testId="filter-by-all-btn"
+            onClick={ () => setFilterRecipes('all') }
+            className={
+              filterRecipes === 'all' ? classActive : classButton
+            }
+          />
+          <Button
+            title="Food"
+            testId="filter-by-food-btn"
+            onClick={ () => setFilterRecipes('food') }
+            className={
+              filterRecipes === 'food' ? classActive : classButton
+            }
+          />
+          <Button
+            title="Drinks"
+            testId="filter-by-drink-btn"
+            onClick={ () => setFilterRecipes('drink') }
+            className={
+              filterRecipes === 'drink' ? classActive : classButton
+            }
+          />
+        </div>
+      </section>
+
+      <section className="done-recipes-container">
+        { favoriteList
+      && favoriteList.map((favorite, index) => (
+
+        <div className="done-recipe-card" key={ index }>
+
+          <div className="done-recipe-content">
             <img
               src={ favorite.image }
               alt={ favorite.name }
-              width="200px"
-              data-testid={ `${i}-horizontal-image` }
+              className="recipe-image"
+              onClick={ () => history.push(`/${favorite.type}s/${favorite.id}`) }
+              aria-hidden="true"
             />
-            <p data-testid={ `${i}-horizontal-top-text` }>
-              {
-                favorite.alcoholicOrNot.length > 0
-                  ? <span>{favorite.alcoholicOrNot}</span>
-                  : (
-                    <span>{`${favorite.nationality} - ${favorite.category}`}</span>
-                  )
-              }
-            </p>
-            <h3
-              data-testid={ `${i}-horizontal-name` }
-            >
-              {favorite.name}
-            </h3>
-          </Link>
 
-          <Button
-            type="button"
-            onClick={
-              () => { handleShareClick(favorite.type, favorite.id); }
-            }
-          >
-            <img
-              data-testid={ `${i}-horizontal-share-btn` }
-              src={ shareIcon }
-              alt={ favorite.name }
-            />
-            {shareLinkMsg && <p>Link copied!</p>}
-          </Button>
-          <Button
-            title={
-              <img
-                data-testid={ `${i}-horizontal-favorite-btn` }
-                src={ verifiedIconFavorite(isFavorited) }
-                alt="favorite icon"
-              />
-            }
-            onClick={ () => handleFavoriteBtn(favorite) }
-          />
+            <div className="recipe-details">
+              <h3 className="done-recipe-title">{favorite.name}</h3>
+
+              { favorite.alcoholicOrNot.length > 1 ? (
+
+                <span className="done-recipe-span">
+                  {favorite.alcoholicOrNot}
+                </span>
+
+              ) : (
+
+                <span className="done-recipe-span">
+                  { `${favorite.nationality} - ${favorite.category}` }
+                </span>
+
+              )}
+              <div style={ { display: 'flex', marginTop: '10px', gap: '5px' } }>
+                <Button
+                  onClick={ () => handleShareClick(favorite.type, favorite.id) }
+                  className="done-share-button"
+                >
+                  {
+                    shareLinkMsg
+                      ? <BsCheck className="check-icon" />
+                      : <GiShare className="share-icon" />
+                  }
+                </Button>
+
+                <Button
+                  onClick={ () => handleFavoriteBtn(favorite) }
+                  className="done-share-button"
+                  title={ <img
+                    data-testid="favorite-btn"
+                    alt="favorite icon"
+                    src={ verifiedIconFavorite(isFavorited) }
+                  /> }
+                />
+              </div>
+            </div>
+
+          </div>
+
         </div>
       ))}
+      </section>
+
+      <Footer />
     </section>
   );
 }
