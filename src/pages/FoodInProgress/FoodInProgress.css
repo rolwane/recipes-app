@@ -1,3 +1,56 @@
 .line-through {
   text-decoration: line-through;
 }
+
+.ingredients-list {
+  list-style: none;
+  padding: 20px;
+}
+
+.ingredient-item {
+  align-items: center;
+  color: var(--blue);
+  display: flex;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.checkbox-item {
+  appearance: none;
+  border: 2px dotted var(--blue);
+  border-radius: 2px;
+  height: 18px;
+  margin-right: 10px;
+  position: relative;
+  width: 18px;
+}
+
+.checkbox-item:checked:after {
+  content: '✅';
+  display: block;
+  font-size: 19px;
+  height: 18px;
+  margin: -5px 0 0 -3px;
+  position: absolute;
+  top: 0;
+  width: 18px;
+}
+
+.finish-recipe-btn {
+  align-items: center;
+  background-color: var(--red);
+  border: none;
+  color: white;
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  justify-content: center;
+  margin-top: 40px;
+  padding: 20px;
+  width: 100%;
+}
+
+.finish-recipe-btn:disabled {
+  background-color: rgba(214, 40, 40, 0.3);
+}

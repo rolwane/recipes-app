@@ -14,34 +14,39 @@ function Profile({ history }) {
     setUserEmail(email);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    history.push('/');
-  };
-
   return (
     <section>
-      <Header title="Profile" />
+      <Header title="Profile" renderLogout />
 
-      <h2 data-testid="profile-email">{userEmail}</h2>
+      <div className="explore-container" sty>
 
-      <Button
-        title="Done Recipes"
-        testId="profile-done-btn"
-        onClick={ () => history.push('/done-recipes') }
-      />
+        <h3
+          data-testid="profile-email"
+          style={ {
+            display: 'block',
+            width: '100%',
+            textAlign: 'center',
+            marginBottom: '10px',
+          } }
+        >
+          {userEmail}
+        </h3>
 
-      <Button
-        title="Favorite Recipes"
-        testId="profile-favorite-btn"
-        onClick={ () => history.push('/favorite-recipes') }
-      />
+        <Button
+          title="Done Recipes"
+          testId="profile-done-btn"
+          onClick={ () => history.push('/done-recipes') }
+          className="button-category"
+        />
 
-      <Button
-        title="Logout"
-        testId="profile-logout-btn"
-        onClick={ handleLogout }
-      />
+        <Button
+          title="Favorite Recipes"
+          testId="profile-favorite-btn"
+          onClick={ () => history.push('/favorite-recipes') }
+          className="button-category"
+        />
+
+      </div>
 
       <Footer />
     </section>

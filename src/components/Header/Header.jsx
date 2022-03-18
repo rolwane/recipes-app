@@ -9,10 +9,11 @@ import './Header.css';
 // imported components
 import SearchBar from '../SearchBar/SearchBar';
 import Button from '../Button/Button';
+import ButtonLogout from '../ButtonLogout/ButtonLogout';
 
 function Header(props) {
   const [showInput, setShowInput] = useState(false);
-  const { title, renderSearch } = props;
+  const { title, renderSearch, renderLogout } = props;
 
   return (
     <header>
@@ -27,6 +28,10 @@ function Header(props) {
         <Button onClick={ () => setShowInput(!showInput) } className="btn-search">
           <AiOutlineSearch />
         </Button>
+      )}
+
+      {renderLogout && (
+        <ButtonLogout />
       )}
 
       <SearchBar
