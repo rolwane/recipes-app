@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
+import { GiShare } from 'react-icons/gi';
 import { REMOVE_IN_PROGRESS } from '../../helpers/constants';
 import { sendProgressRecipe,
   shareLink,
@@ -131,35 +132,47 @@ function DrinkInProgress(props) {
           <img
             src={ recipeInProgress.strDrinkThumb }
             alt={ recipeInProgress.strDrink }
-            width="300px"
             data-testid="recipe-photo"
+            className="recipe-photo"
           />
-          <h3 data-testid="recipe-title">{ recipeInProgress.strDrink }</h3>
-          <Button type="button" onClick={ handleShareClick }>
-            <img
-              data-testid="share-btn"
-              src="https://img.icons8.com/android/24/000000/share.png"
-              alt="será um componente"
-            />
-            {shareLinkMsg && <p>Link copied!</p>}
-          </Button>
-          <Button
-            type="button"
-            onClick={ handleFavoriteClick }
+
+          <h3 className="recipe-title">{ recipeInProgress.strDrink }</h3>
+
+          <div className="container-recipe-buttons">
+            <Button type="button" onClick={ handleShareClick }>
+              {
+                (shareLinkMsg && <span className="span">Link copied!</span>)
+                || <GiShare className="share-icon" />
+
+              }
+            </Button>
+
+            <Button
+              onClick={ handleFavoriteClick }
+            >
+              <img
+                data-testid="favorite-btn"
+                src={ verifiedIconFavorite(isFavoriteRecipe) }
+                alt="favorite icon"
+              />
+            </Button>
+          </div>
+
+          <h4
+            data-testid="recipe-category"
+            className="recipe-category"
           >
-            <img
-              data-testid="favorite-btn"
-              style={ { width: '24.2px' } }
-              src={ verifiedIconFavorite(isFavoriteRecipe) }
-              alt="será um componente"
-            />
-          </Button>
-          <h4 data-testid="recipe-category">
             { recipeInProgress.strCategory }
           </h4>
-          <ul>
+
+          <ul className="ingredients-list">
             { ingredientList.map((ingredient, i) => (
-              <li key={ i } data-testid={ `${i}-ingredient-step` }>
+
+              <li
+                key={ i }
+                data-testid={ `${i}-ingredient-step` }
+                className="ingredient-item"
+              >
                 <input
                   checked={ checkedIngredients
                     && checkedIngredients.some((ing) => ing.includes(ingredient[1])) }
@@ -168,6 +181,7 @@ function DrinkInProgress(props) {
                   name={ ingredient[0] }
                   value={ ingredient[1] }
                   onChange={ handleOnChange }
+                  className="checkbox-item"
                 />
                 <label
                   htmlFor={ ingredient[1] }
@@ -183,15 +197,20 @@ function DrinkInProgress(props) {
 
               </li>))}
           </ul>
-          <p data-testid="instructions">
-            { recipeInProgress.strInstructions }
+
+          <p data-testid="instructions" className="container-instructions">
+            <p className="instructions">
+              { recipeInProgress.strInstructions }
+            </p>
           </p>
+
           <button
             disabled={ checkedIngredients
               && ingredientList.length !== checkedIngredients.length }
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ handleClick }
+            className="finish-recipe-btn"
           >
             FINISH RECIPE
           </button>
