@@ -29,12 +29,5 @@ Além de comidas a aplicação também possui receitas de bebidas, seguindos as 
 
 <br />
 
-## Autor
-
-**Rolwane Borges** - Responsável pelo desenvolvimento do projeto.
-[Conecte-se no Linkedin.](https://www.linkedin.com/in/rolwane/)
-
-<br />
-
 ## Deploy ##
 [Acessar aplicação](https://rolwane-recipes-app.vercel.app/)
