@@ -1,11 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
 import { getCategoriesDrinks, getDrinksByCategory } from '../../services/drinksAPI';
 import { MAX_CATEGORIES, MAX_FOODS_AND_DRINKS } from '../../helpers/constants';
 
-// imported components
 import Header from '../../components/Header/Header';
 import RecipeCard from '../../components/RepiceCard/RecipeCard';
 import Button from '../../components/Button/Button';

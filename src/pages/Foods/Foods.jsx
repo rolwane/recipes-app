@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecipeContext from '../../context/RecipeContext';
